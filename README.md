@@ -4,7 +4,7 @@ This is an example application built with <a target="_blank" href="https://larav
 
 It is also an application developed to cover a good approach to workflow via the Laravel framework.
 
-Areas Covered (so far, a good few to go yet):
+<strong>Areas Covered</strong> (so far, a good few to go yet):
 
 Migrations, (Seeder)<br>
 Models, <br>
@@ -13,7 +13,7 @@ Resource, <br>
 Tests, (Model Factory)<br>
 PSR4 Autoload (custom class without dependency injection), <br>
 
-Artisan Commands worth noting:
+<strong>Artisan Commands worth noting</strong>:
 
 php artisan make:controller BdayController --resource --api --model=Bday <br>
 php artisan db:seed <br>
