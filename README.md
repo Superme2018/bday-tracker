@@ -1,10 +1,10 @@
 # bday-tracker
 
-This is an example application built with Laravel, to support my CV. <br> It's a way for me to keep track of Birthdays as I constantly forget.
+This is an example application built with Laravel and vuetify.js. <br> It's small application for me to keep track of Birthdays as I have a good few to remember.
 
-It is also an application developed to cover a good approach to workflow via the Laravel framework.
+It is also an application developed to cover a good approach to workflow via the Laravel framework, and outlines some of the frameworks capabilitys. 
 
-Areas Covered:
+Areas Covered (so far, a good fee to go yet):
 
 Migrations, (Seeder)<br>
 Models, <br>
