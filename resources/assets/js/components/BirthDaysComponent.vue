@@ -15,7 +15,7 @@
           <v-card-title primary-title>
             <v-flex xs12 text-xs-left>
               <div class="title">{{ bday.name }}</div>
-              <div class="subheading">85 days to go</div>
+              <div class="subheading">{{ bday.days_to_go }}</div>
             </v-flex>
           </v-card-title>
 
@@ -23,7 +23,7 @@
 
             <v-card-text>
               <v-flex xs12 text-xs-left>
-                <div>Date of Birth: <strong>22th of July 1947 {{ bday.birth_day }}</strong></div>
+                <div>Date of Birth: <strong>{{ bday.birth_day }}</strong></div>
                 <div>Age of next Birthday: <strong>36 years old</strong></div>
               </v-flex>
             </v-card-text>

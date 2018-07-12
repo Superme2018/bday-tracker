@@ -17519,7 +17519,7 @@ var render = function() {
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "subheading" }, [
-                            _vm._v("39 days to go")
+                            _vm._v(_vm._s(bday.days_to_go))
                           ])
                         ]
                       )
@@ -17538,11 +17538,7 @@ var render = function() {
                         [
                           _c("div", [
                             _vm._v("Date of Birth: "),
-                            _c("strong", [
-                              _vm._v(
-                                "18th of Aug 1982 " + _vm._s(bday.birth_day)
-                              )
-                            ])
+                            _c("strong", [_vm._v(_vm._s(bday.birth_day))])
                           ]),
                           _vm._v(" "),
                           _c("div", [
