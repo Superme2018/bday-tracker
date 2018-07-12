@@ -24,7 +24,7 @@
             <v-card-text>
               <v-flex xs12 text-xs-left>
                 <div>Date of Birth: <strong>{{ bday.birth_day }}</strong></div>
-                <div>Age of next Birthday: <strong>36 years old</strong></div>
+                <div>Age on next Birthday: <strong>{{ bday.age_in_years }}</strong></div>
               </v-flex>
             </v-card-text>
 

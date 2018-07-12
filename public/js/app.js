@@ -17542,8 +17542,8 @@ var render = function() {
                           ]),
                           _vm._v(" "),
                           _c("div", [
-                            _vm._v("Age of next Birthday: "),
-                            _c("strong", [_vm._v("36 years old")])
+                            _vm._v("Age on next Birthday: "),
+                            _c("strong", [_vm._v(_vm._s(bday.age_in_years))])
                           ])
                         ]
                       )
