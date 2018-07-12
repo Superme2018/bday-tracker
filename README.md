@@ -11,7 +11,7 @@ Models, <br>
 Controllers (Carbon, Validation) (Resource Controller + Route Model Binding), <br> 
 Resource, <br>
 Tests, (Model Factory)<br>
-PSR4 Autoload (custom class without dependency injection), <br>
+PSR4 Autoload (custom class without dependency injection), (Helpers) <br>
 
 <strong>Artisan Commands worth noting:</strong>
 
