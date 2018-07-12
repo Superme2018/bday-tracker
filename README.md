@@ -2,7 +2,7 @@
 
 This is an example application built with <a target="_blank" href="https://laravel.com/">Laravel</a> and <a target="_blank" href="https://vuetifyjs.com/en/">vuetify.js</a>. <br> It's small application for me to keep track of Birthdays as I have a good few to remember.
 
-It is also an application developed to cover a good approach to workflow via the Laravel framework, and outlines some of the frameworks capabilitys. 
+It is also an application developed to cover a good approach to workflow via the Laravel framework. <br> It also outlines some of the frameworks capabilitys. 
 
 Areas Covered (so far, a good few to go yet):
 
