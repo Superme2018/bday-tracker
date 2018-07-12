@@ -4,7 +4,7 @@ This is an example application built with Laravel and vuetify.js. <br> It's smal
 
 It is also an application developed to cover a good approach to workflow via the Laravel framework, and outlines some of the frameworks capabilitys. 
 
-Areas Covered (so far, a good fee to go yet):
+Areas Covered (so far, a good few to go yet):
 
 Migrations, (Seeder)<br>
 Models, <br>
