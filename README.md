@@ -9,7 +9,7 @@ It is also an application developed to cover a good approach to workflow via the
 Migrations, (Seeder)<br>
 Models, <br>
 Controllers (Carbon, Validation) (Resource Controller + Route Model Binding), <br> 
-Resource, <br>
+Resource, (Transforms) <br>
 Tests, (Model Factory)<br>
 PSR4 Autoload (custom class without dependency injection), (Helpers) <br>
 
