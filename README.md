@@ -1,19 +1,19 @@
 # bday-tracker
 
-This is an example application built with Laravel, to support my CV. <br> It's a way for me to keep track of Birthdays as I constantly forget.
+This is an example application built with <a target="_blank" href="https://laravel.com/">Laravel</a> and <a target="_blank" href="https://vuetifyjs.com/en/">vuetify.js</a>. <br> It's a small application for me to keep track of birthdays, as I have a good few to remember.
 
 It is also an application developed to cover a good approach to workflow via the Laravel framework.
 
-Areas Covered:
+<strong>Areas Covered:</strong> (so far, a good few to go yet)
 
 Migrations, (Seeder)<br>
 Models, <br>
 Controllers (Carbon, Validation) (Resource Controller + Route Model Binding), <br> 
-Resource, <br>
+Resource, (Transforms) <br>
 Tests, (Model Factory)<br>
-PSR4 Autoload (custom class without dependency injection), <br>
+PSR4 Autoload (custom class without dependency injection), (Helpers) <br>
 
-Artisan Commands worth noting:
+<strong>Artisan Commands worth noting:</strong>
 
 php artisan make:controller BdayController --resource --api --model=Bday <br>
 php artisan db:seed <br>
