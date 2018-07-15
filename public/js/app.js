@@ -17479,6 +17479,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 compData.bdays = response.data;
                 compData.loading = false; // <- Quick test just to get the loading bool to change.
                 // Kind of keen to explore events at a later date.
+
+                compData.$eventHub.$emit('activate-pagination', response.data.meta);
             }).catch(function (error) {
                 compData.bdays = error;
                 compData.loading = false; // <- Quick test just to get the loading bool to change.
@@ -17660,13 +17662,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      page: 1
+      page: 1,
+      length: 0
     };
+  },
+  created: function created() {
+    this.$eventHub.$on('activate-pagination', this.activatePagination);
+  },
+  beforeDestroy: function beforeDestroy() {
+    this.$eventHub.$off('activate-pagination');
   },
 
   methods: {
     changePage: function changePage(page) {
       this.$eventHub.$emit('change-page-request', { page: page });
+    },
+    activatePagination: function activatePagination(metaData) {
+      //console.log(metaData);
+      this.page = metaData.current_page;
+      this.length = metaData.last_page;
     }
   },
   watch: {
@@ -17697,7 +17711,7 @@ var render = function() {
               { staticClass: "text-xs-center" },
               [
                 _c("v-pagination", {
-                  attrs: { length: 6 },
+                  attrs: { length: _vm.length },
                   model: {
                     value: _vm.page,
                     callback: function($$v) {

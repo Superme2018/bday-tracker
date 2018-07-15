@@ -7,7 +7,7 @@
           <div class="text-xs-center">
             <v-pagination
               v-model="page"
-              :length="6"
+              :length="length"
             ></v-pagination>
           </div>
 
@@ -22,11 +22,23 @@
     data () {
       return {
         page: 1,
+        length: 0
       }
+    },
+    created() {
+        this.$eventHub.$on('activate-pagination', this.activatePagination);
+    },
+    beforeDestroy() {
+      this.$eventHub.$off('activate-pagination');
     },
     methods: {
       changePage(page){
         this.$eventHub.$emit('change-page-request', {page:page});
+      },
+      activatePagination(metaData){
+        //console.log(metaData);
+        this.page = metaData.current_page;
+        this.length = metaData.last_page;
       }
     },
     watch: {

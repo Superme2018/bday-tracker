@@ -49,6 +49,7 @@
         created() {
            this.loadBdays();
            this.$eventHub.$on('change-page-request', this.loadBdays);
+
         },
         beforeDestroy() {
           this.$eventHub.$off('change-page-request');
@@ -67,6 +68,9 @@
                     compData.bdays = response.data;
                     compData.loading = false; // <- Quick test just to get the loading bool to change.
                     // Kind of keen to explore events at a later date.
+
+                    compData.$eventHub.$emit('activate-pagination', response.data.meta);
+
                 }).catch(function(error){
                     compData.bdays = error;
                     compData.loading = false; // <- Quick test just to get the loading bool to change.
