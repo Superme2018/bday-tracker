@@ -48,6 +48,10 @@
         },
         created() {
            this.loadBdays();
+           this.$eventHub.$on('change-page-request', this.changePageData);
+        },
+        beforeDestroy() {
+          this.$eventHub.$off('change-page-request');
         },
         methods: {
             loadBdays: function () {
@@ -64,6 +68,9 @@
                     compData.loading = false; // <- Quick test just to get the loading bool to change.
                     // Kind of keen to explore events at a later date.
                 })
+            },
+            changePageData: function(page){
+              alert("Change Page Data " + page.page);
             }
         }
     }

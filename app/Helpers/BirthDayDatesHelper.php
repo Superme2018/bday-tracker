@@ -7,15 +7,12 @@ use Carbon\Carbon;
 class BirthDayDatesHelper {
 
     /*
-     *
      * Would be nice to create a test case for this, and maybe all the other helpers.
-     *
     */
 
     public function ConvertToNiceFormat($date){
 
       // Not suing carbon directly under the resource as I may want to tweak this at a later date.
-
       if($carbonDate = Carbon::parse($date))
         return $carbonDate->toFormattedDateString();
       return "Date format incorrect"; // Yeah need to sort something out for this.
@@ -36,9 +33,7 @@ class BirthDayDatesHelper {
     }
 
     /*
-     *
      * Private utility for this class.
-     *
     */
     private function ConvertBirthDayToThisYear($carbonDate){
       if($carbonDate)

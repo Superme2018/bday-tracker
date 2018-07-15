@@ -21,10 +21,15 @@ Vue.component('remember-password', require('./components/RememberPasswordCompone
 Vue.component('reset-password', require('./components/ResetPasswordComponent.vue'));
 Vue.component('snackbar', require('./components/SnackBarComponent.vue'));
 Vue.component('gravatar', require('./components/GravatarComponent.vue'));
+
+// App specific
 Vue.component('birthdays-component', require('./components/BirthDaysComponent.vue'));
+Vue.component('birthdays-pagination-component', require('./components/BirthDaysPagination.vue'));
 
 window.Vuetify = require('vuetify');
 Vue.use(Vuetify)
+
+Vue.prototype.$eventHub = new Vue(); // Global event bus
 
 import store from './store'
 import * as actions from './store/action-types'

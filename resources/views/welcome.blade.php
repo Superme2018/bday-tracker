@@ -26,15 +26,16 @@
             fixed
             app>
 
-          <v-toolbar-title class="mr-5 align-center">
-            <span class="title">Birthday Tracker</span>
-          </v-toolbar-title>
+            <v-toolbar-title class="mr-5 align-center">
+              <span class="title">Birthday Tracker</span>
+            </v-toolbar-title>
 
           </v-toolbar>
 
           <v-content>
             <v-container grid-list-md text-xs-center>
-                <birthdays-component></birthdays-component>
+              <birthdays-pagination-component></birthdays-pagination-component>
+              <birthdays-component></birthdays-component>
             </v-container>
           </v-content>
 
