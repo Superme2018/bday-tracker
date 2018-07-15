@@ -26,7 +26,7 @@
       }
     },
     created() {
-        this.$eventHub.$on('activate-pagination', this.activatePagination);
+      this.$eventHub.$on('activate-pagination', this.activatePagination);
     },
     beforeDestroy() {
       this.$eventHub.$off('activate-pagination');
