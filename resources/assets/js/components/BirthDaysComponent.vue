@@ -48,17 +48,21 @@
         },
         created() {
            this.loadBdays();
-           this.$eventHub.$on('change-page-request', this.changePageData);
+           this.$eventHub.$on('change-page-request', this.loadBdays);
         },
         beforeDestroy() {
           this.$eventHub.$off('change-page-request');
         },
         methods: {
-            loadBdays: function () {
+            loadBdays: function (page) {
 
                 var compData = this;
+                var requestUrl = "http://localhost/bday-tracker/public/api/bday/"
 
-                const requestInstance = axios.get('http://localhost/bday-tracker/public/api/bday/')
+                if(page)
+                   requestUrl = requestUrl + "?page=" + page.page;
+
+                const requestInstance = axios.get(requestUrl)
                 .then(response => {
                     compData.bdays = response.data;
                     compData.loading = false; // <- Quick test just to get the loading bool to change.
@@ -68,9 +72,6 @@
                     compData.loading = false; // <- Quick test just to get the loading bool to change.
                     // Kind of keen to explore events at a later date.
                 })
-            },
-            changePageData: function(page){
-              alert("Change Page Data " + page.page);
             }
         }
     }

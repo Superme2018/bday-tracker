@@ -17461,18 +17461,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     created: function created() {
         this.loadBdays();
-        this.$eventHub.$on('change-page-request', this.changePageData);
+        this.$eventHub.$on('change-page-request', this.loadBdays);
     },
     beforeDestroy: function beforeDestroy() {
         this.$eventHub.$off('change-page-request');
     },
 
     methods: {
-        loadBdays: function loadBdays() {
+        loadBdays: function loadBdays(page) {
 
             var compData = this;
+            var requestUrl = "http://localhost/bday-tracker/public/api/bday/";
 
-            var requestInstance = axios.get('http://localhost/bday-tracker/public/api/bday/').then(function (response) {
+            if (page) requestUrl = requestUrl + "?page=" + page.page;
+
+            var requestInstance = axios.get(requestUrl).then(function (response) {
                 compData.bdays = response.data;
                 compData.loading = false; // <- Quick test just to get the loading bool to change.
                 // Kind of keen to explore events at a later date.
@@ -17481,9 +17484,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 compData.loading = false; // <- Quick test just to get the loading bool to change.
                 // Kind of keen to explore events at a later date.
             });
-        },
-        changePageData: function changePageData(page) {
-            alert("Change Page Data " + page.page);
         }
     }
 });
@@ -17660,7 +17660,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      page: 5
+      page: 1
     };
   },
 
