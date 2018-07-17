@@ -34,6 +34,9 @@
 
           <v-content>
             <v-container grid-list-md text-xs-center>
+
+              <create-birthday-dialog></create-birthday-dialog>
+
               <birthdays-pagination-component></birthdays-pagination-component>
               <birthdays-component></birthdays-component>
             </v-container>

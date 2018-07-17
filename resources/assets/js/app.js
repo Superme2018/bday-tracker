@@ -26,6 +26,12 @@ Vue.component('gravatar', require('./components/GravatarComponent.vue'));
 Vue.component('birthdays-component', require('./components/BirthDaysComponent.vue'));
 Vue.component('birthdays-pagination-component', require('./components/BirthDaysPagination.vue'));
 
+// Dialogs
+Vue.component('create-birthday-dialog', require('./components/dialogs/CreateBirthDayDialog.vue'));
+
+// Forms
+Vue.component('create-birthday-form', require('./components/forms/CreateBirthDayForm.vue'));
+
 window.Vuetify = require('vuetify');
 Vue.use(Vuetify)
 
