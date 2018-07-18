@@ -33,9 +33,13 @@ Vue.component('create-birthday-dialog', require('./components/dialogs/CreateBirt
 Vue.component('create-birthday-form', require('./components/forms/CreateBirthDayForm.vue'));
 
 window.Vuetify = require('vuetify');
+
 Vue.use(Vuetify)
 
 Vue.prototype.$eventHub = new Vue(); // Global event bus
+
+import VeeValidate from 'vee-validate';
+Vue.use(VeeValidate);
 
 import store from './store'
 import * as actions from './store/action-types'

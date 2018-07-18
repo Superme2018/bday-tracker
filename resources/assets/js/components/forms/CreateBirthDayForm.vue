@@ -2,27 +2,31 @@
 
       <v-form ref="form" v-model="valid" lazy-validation>
 
+        <v-flex md12 mb-4 >
+          <h3 class="title"  prepend-icon="event">
+            Create a New Birthday
+          </h3>
+        </v-flex>
 
-        <v-heading class="title" >
-          Create a New Birthday
-        </v-heading>
-
-        <v-flex md12>
+        <v-flex md12 >
           <v-text-field
-              v-model="name"
-              :rules="nameRules"
-              :counter="10"
-              label="Name"
-              required
+            v-model="name"
+            :counter="10"
+            label="Name"
+            required
+            prepend-icon="fingerprint"
+            v-validate="'required|max:10'"
+            :error-messages="errors.collect('name')"
+            data-vv-name="name"
           ></v-text-field>
         </v-flex>
 
-        <v-flex md12>
+        <v-flex md12 >
 
           <v-menu
-            ref="menu1"
+            ref="datePicker"
             :close-on-content-click="false"
-            v-model="menu1"
+            v-model="datePicker"
             :nudge-right="40"
             lazy
             transition="scale-transition"
@@ -39,10 +43,13 @@
             hint="MM/DD/YYYY format"
             persistent-hint
             prepend-icon="event"
+            v-validate="'required'"
+            data-vv-name="dateFormatted"
+            :error-messages="errors.collect('dateFormatted')"
             @blur="date = parseDate(dateFormatted)"
           ></v-text-field>
 
-          <v-date-picker v-model="date" no-title @input="menu1 = false" ></v-date-picker>
+            <v-date-picker v-model="date" no-title @input="datePicker = false" ></v-date-picker>
 
           </v-menu>
 
@@ -50,20 +57,19 @@
 
         <v-flex md12 mt-4>
 
-          <v-divider></v-divider>
-
           <v-btn
             color="deep-blue accent-4"
             @click="toggleState(false)"
           >
-          Cancel
+            Cancel
           </v-btn>
 
           <v-btn
             color="deep-blue accent-4"
             @click="toggleState(true)"
+            :disabled="!valid"
           >
-          Save
+            Save
           </v-btn>
 
         </v-flex>
@@ -74,18 +80,25 @@
 
 <script>
   export default {
+    $_veeValidate: {
+      validator: 'new'
+    },
     data () {
       return {
         date: null,
         dateFormatted: null,
-        menu1: false,
+        datePicker: false,
+        valid: false,
+        name: '',
+        saveEnabled: true
       }
     },
     created() {},
     beforeDestroy() {},
     methods: {
       toggleState: function(toggleState){
-        this.$eventHub.$emit('toggle-create-birthday-dialog', toggleState);
+        this.$validator.validateAll();
+        //this.$eventHub.$emit('toggle-create-birthday-dialog', toggleState);
       },
       formatDate (date) {
         if (!date) return null
