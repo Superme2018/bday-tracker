@@ -17808,6 +17808,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -17850,7 +17856,21 @@ var render = function() {
         expression: "dialog"
       }
     },
-    [_c("create-birthday-form")],
+    [
+      _c(
+        "v-layout",
+        { attrs: { grey: "", "darken-3": "" } },
+        [
+          _c(
+            "v-flex",
+            { attrs: { md12: "", "ma-4": "" } },
+            [_c("create-birthday-form")],
+            1
+          )
+        ],
+        1
+      )
+    ],
     1
   )
 }
@@ -17917,6 +17937,50 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -17952,7 +18016,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {};
+    return {
+      date: null,
+      dateFormatted: null,
+      menu1: false
+    };
   },
   created: function created() {},
   beforeDestroy: function beforeDestroy() {},
@@ -17960,9 +18028,35 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   methods: {
     toggleState: function toggleState(_toggleState) {
       this.$eventHub.$emit('toggle-create-birthday-dialog', _toggleState);
+    },
+    formatDate: function formatDate(date) {
+      if (!date) return null;
+
+      var _date$split = date.split('-'),
+          _date$split2 = _slicedToArray(_date$split, 3),
+          year = _date$split2[0],
+          month = _date$split2[1],
+          day = _date$split2[2];
+
+      return month + '/' + day + '/' + year;
+    },
+    parseDate: function parseDate(date) {
+      if (!date) return null;
+
+      var _date$split3 = date.split('/'),
+          _date$split4 = _slicedToArray(_date$split3, 3),
+          month = _date$split4[0],
+          day = _date$split4[1],
+          year = _date$split4[2];
+
+      return year + '-' + month.padStart(2, '0') + '-' + day.padStart(2, '0');
     }
   },
-  watch: {}
+  watch: {
+    date: function date(val) {
+      this.dateFormatted = this.formatDate(this.date);
+    }
+  }
 });
 
 /***/ }),
@@ -17974,47 +18068,148 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-card",
+    "v-form",
+    {
+      ref: "form",
+      attrs: { "lazy-validation": "" },
+      model: {
+        value: _vm.valid,
+        callback: function($$v) {
+          _vm.valid = $$v
+        },
+        expression: "valid"
+      }
+    },
     [
-      _c("v-card-title", { staticClass: "headline" }, [
-        _vm._v("Use Google's location service?")
-      ]),
-      _vm._v(" "),
-      _c("v-card-text", [
-        _vm._v(
-          "\n    Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.\n  "
-        )
+      _c("v-heading", { staticClass: "title" }, [
+        _vm._v("\n      Create a New Birthday\n    ")
       ]),
       _vm._v(" "),
       _c(
-        "v-card-actions",
+        "v-flex",
+        { attrs: { md12: "" } },
         [
-          _c("v-spacer"),
+          _c("v-text-field", {
+            attrs: {
+              rules: _vm.nameRules,
+              counter: 10,
+              label: "Name",
+              required: ""
+            },
+            model: {
+              value: _vm.name,
+              callback: function($$v) {
+                _vm.name = $$v
+              },
+              expression: "name"
+            }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-flex",
+        { attrs: { md12: "" } },
+        [
+          _c(
+            "v-menu",
+            {
+              ref: "menu1",
+              attrs: {
+                "close-on-content-click": false,
+                "nudge-right": 40,
+                lazy: "",
+                transition: "scale-transition",
+                "offset-y": "",
+                "full-width": "",
+                "max-width": "290px",
+                "min-width": "290px"
+              },
+              model: {
+                value: _vm.menu1,
+                callback: function($$v) {
+                  _vm.menu1 = $$v
+                },
+                expression: "menu1"
+              }
+            },
+            [
+              _c("v-text-field", {
+                attrs: {
+                  slot: "activator",
+                  label: "Date",
+                  hint: "MM/DD/YYYY format",
+                  "persistent-hint": "",
+                  "prepend-icon": "event"
+                },
+                on: {
+                  blur: function($event) {
+                    _vm.date = _vm.parseDate(_vm.dateFormatted)
+                  }
+                },
+                slot: "activator",
+                model: {
+                  value: _vm.dateFormatted,
+                  callback: function($$v) {
+                    _vm.dateFormatted = $$v
+                  },
+                  expression: "dateFormatted"
+                }
+              }),
+              _vm._v(" "),
+              _c("v-date-picker", {
+                attrs: { "no-title": "" },
+                on: {
+                  input: function($event) {
+                    _vm.menu1 = false
+                  }
+                },
+                model: {
+                  value: _vm.date,
+                  callback: function($$v) {
+                    _vm.date = $$v
+                  },
+                  expression: "date"
+                }
+              })
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-flex",
+        { attrs: { md12: "", "mt-4": "" } },
+        [
+          _c("v-divider"),
           _vm._v(" "),
           _c(
             "v-btn",
             {
-              attrs: { color: "green darken-1", flat: "flat" },
+              attrs: { color: "deep-blue accent-4" },
               on: {
                 click: function($event) {
                   _vm.toggleState(false)
                 }
               }
             },
-            [_vm._v("\n        Disagree\n      ")]
+            [_vm._v("\n      Cancel\n      ")]
           ),
           _vm._v(" "),
           _c(
             "v-btn",
             {
-              attrs: { color: "green darken-1", flat: "flat" },
+              attrs: { color: "deep-blue accent-4" },
               on: {
                 click: function($event) {
                   _vm.toggleState(true)
                 }
               }
             },
-            [_vm._v("\n      Agree\n    ")]
+            [_vm._v("\n      Save\n      ")]
           )
         ],
         1

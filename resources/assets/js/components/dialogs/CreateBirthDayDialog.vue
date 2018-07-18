@@ -1,7 +1,13 @@
 <template>
 
   <v-dialog v-model="dialog" persistent max-width="500px">
-    <create-birthday-form></create-birthday-form>
+
+    <v-layout grey darken-3 >
+      <v-flex md12 ma-4>
+        <create-birthday-form></create-birthday-form>
+      </v-flex>
+    </v-layout>
+
   </v-dialog>
 
 </template>
