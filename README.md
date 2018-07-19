@@ -18,3 +18,7 @@ PSR4 Autoload (custom class without dependency injection), (Helpers) <br>
 php artisan make:controller BdayController --resource --api --model=Bday <br>
 php artisan db:seed <br>
 ./vendor/bin/phpunit <br>
+
+<strong>Vutify.js in action:</strong>
+
+<img src="https://media.giphy.com/media/2bXt6lBcnnRT3Vv8hf/giphy.gif"/>
