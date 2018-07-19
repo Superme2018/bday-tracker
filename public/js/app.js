@@ -13467,8 +13467,10 @@ window.Vuetify = __webpack_require__(86);
 
 Vue.use(Vuetify);
 
+// Event Bus
 Vue.prototype.$eventHub = new Vue(); // Global event bus
 
+// VeeValidate
 
 Vue.use(__WEBPACK_IMPORTED_MODULE_0_vee_validate__["a" /* default */]);
 
@@ -18044,8 +18046,15 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
   methods: {
     toggleState: function toggleState(_toggleState) {
-      this.$validator.validateAll();
+      this.validateForm();
       //this.$eventHub.$emit('toggle-create-birthday-dialog', toggleState);
+    },
+    validateForm: function validateForm() {
+      var _this = this;
+
+      setTimeout(function () {
+        return _this.$validator.validateAll();
+      }, 200);
     },
     formatDate: function formatDate(date) {
       if (!date) return null;
@@ -18057,17 +18066,6 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
           day = _date$split2[2];
 
       return month + '/' + day + '/' + year;
-    },
-    parseDate: function parseDate(date) {
-      if (!date) return null;
-
-      var _date$split3 = date.split('/'),
-          _date$split4 = _slicedToArray(_date$split3, 3),
-          month = _date$split4[0],
-          day = _date$split4[1],
-          year = _date$split4[2];
-
-      return year + '-' + month.padStart(2, '0') + '-' + day.padStart(2, '0');
     }
   },
   watch: {
@@ -18156,6 +18154,7 @@ var render = function() {
                 "max-width": "290px",
                 "min-width": "290px"
               },
+              on: { "update:returnValue": _vm.validateForm },
               model: {
                 value: _vm.datePicker,
                 callback: function($$v) {
@@ -18170,23 +18169,18 @@ var render = function() {
                   {
                     name: "validate",
                     rawName: "v-validate",
-                    value: "required",
-                    expression: "'required'"
+                    value: "required|date_format:MM/DD/YYYY",
+                    expression: "'required|date_format:MM/DD/YYYY'"
                   }
                 ],
                 attrs: {
                   slot: "activator",
-                  label: "Date",
-                  hint: "MM/DD/YYYY format",
+                  label: "Date of Birth",
+                  hint: "DOB must be in MM/DD/YYYY format",
                   "persistent-hint": "",
                   "prepend-icon": "event",
                   "data-vv-name": "dateFormatted",
                   "error-messages": _vm.errors.collect("dateFormatted")
-                },
-                on: {
-                  blur: function($event) {
-                    _vm.date = _vm.parseDate(_vm.dateFormatted)
-                  }
                 },
                 slot: "activator",
                 model: {

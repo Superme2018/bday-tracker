@@ -34,22 +34,22 @@
             full-width
             max-width="290px"
             min-width="290px"
+            @update:returnValue="validateForm"
           >
 
           <v-text-field
             slot="activator"
             v-model="dateFormatted"
-            label="Date"
-            hint="MM/DD/YYYY format"
+            label="Date of Birth"
+            hint="DOB must be in MM/DD/YYYY format"
             persistent-hint
             prepend-icon="event"
-            v-validate="'required'"
+            v-validate="'required|date_format:MM/DD/YYYY'"
             data-vv-name="dateFormatted"
             :error-messages="errors.collect('dateFormatted')"
-            @blur="date = parseDate(dateFormatted)"
           ></v-text-field>
 
-            <v-date-picker v-model="date" no-title @input="datePicker = false" ></v-date-picker>
+            <v-date-picker v-model="date" no-title @input="datePicker = false"></v-date-picker>
 
           </v-menu>
 
@@ -97,20 +97,17 @@
     beforeDestroy() {},
     methods: {
       toggleState: function(toggleState){
-        this.$validator.validateAll();
+        this.validateForm();
         //this.$eventHub.$emit('toggle-create-birthday-dialog', toggleState);
+      },
+      validateForm(){
+        setTimeout(() =>this.$validator.validateAll(), 200);
       },
       formatDate (date) {
         if (!date) return null
 
         const [year, month, day] = date.split('-')
         return `${month}/${day}/${year}`
-      },
-      parseDate (date) {
-        if (!date) return null
-
-        const [month, day, year] = date.split('/')
-        return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
       }
     },
     watch: {

@@ -36,8 +36,10 @@ window.Vuetify = require('vuetify');
 
 Vue.use(Vuetify)
 
+// Event Bus
 Vue.prototype.$eventHub = new Vue(); // Global event bus
 
+// VeeValidate
 import VeeValidate from 'vee-validate';
 Vue.use(VeeValidate);
 

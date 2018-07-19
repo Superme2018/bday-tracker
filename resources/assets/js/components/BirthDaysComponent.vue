@@ -42,8 +42,8 @@
 
         data(){
             return {
-                bdays: {},
-                loading: true
+              bdays: {},
+              loading: true
             }
         },
         created() {
