@@ -66,7 +66,7 @@
 
           <v-btn
             color="deep-blue accent-4"
-            @click="toggleState(true)"
+            @click="validateFormSend"
             :disabled="!valid"
           >
             Save
@@ -97,11 +97,19 @@
     beforeDestroy() {},
     methods: {
       toggleState: function(toggleState){
-        this.validateForm();
-        //this.$eventHub.$emit('toggle-create-birthday-dialog', toggleState);
+        this.$eventHub.$emit('toggle-create-birthday-dialog', toggleState);
       },
       validateForm(){
-        setTimeout(() =>this.$validator.validateAll(), 200);
+        setTimeout(() => this.$validator.validateAll(), 200);
+      },
+      validateFormSend(){
+        this.$validator.validateAll().then( res => {
+          if(res){
+            this.toggleState(true);
+          } else {
+            console.log("Error with validation.");
+          }
+        });
       },
       formatDate (date) {
         if (!date) return null

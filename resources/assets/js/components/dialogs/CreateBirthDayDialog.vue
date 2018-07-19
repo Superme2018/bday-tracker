@@ -27,7 +27,10 @@
     },
     methods: {
       toggle: function(toggleState){
-        this.dialog = toggleState;
+
+        if(toggleState)
+          return console.log("Send data")
+        return this.dialog = toggleState;
       }
     },
     watch: {},

@@ -17837,7 +17837,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   methods: {
     toggle: function toggle(toggleState) {
-      this.dialog = toggleState;
+
+      if (toggleState) return console.log("Send data");
+      return this.dialog = toggleState;
     }
   },
   watch: {}
@@ -18046,8 +18048,7 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
   methods: {
     toggleState: function toggleState(_toggleState) {
-      this.validateForm();
-      //this.$eventHub.$emit('toggle-create-birthday-dialog', toggleState);
+      this.$eventHub.$emit('toggle-create-birthday-dialog', _toggleState);
     },
     validateForm: function validateForm() {
       var _this = this;
@@ -18055,6 +18056,17 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
       setTimeout(function () {
         return _this.$validator.validateAll();
       }, 200);
+    },
+    validateFormSend: function validateFormSend() {
+      var _this2 = this;
+
+      this.$validator.validateAll().then(function (res) {
+        if (res) {
+          _this2.toggleState(true);
+        } else {
+          console.log("Error with validation.");
+        }
+      });
     },
     formatDate: function formatDate(date) {
       if (!date) return null;
@@ -18235,11 +18247,7 @@ var render = function() {
             "v-btn",
             {
               attrs: { color: "deep-blue accent-4", disabled: !_vm.valid },
-              on: {
-                click: function($event) {
-                  _vm.toggleState(true)
-                }
-              }
+              on: { click: _vm.validateFormSend }
             },
             [_vm._v("\n        Save\n      ")]
           )
