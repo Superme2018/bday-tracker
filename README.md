@@ -21,8 +21,7 @@ php artisan db:seed <br>
 
 <strong>Application Hi-lights (Vutify.js in action)</strong>
 
-As some people are more visually pleased and this application is not going to be live for a while.<br>
-I thought It could be a good idea to do some .gif move recordings to capture some of the features.
+Some .gif move recordings to capture some of the applications features.
 
 <strong>*Realtime validation and responce button loader.<strong>
 <img src="https://media.giphy.com/media/2bXt6lBcnnRT3Vv8hf/giphy.gif"/>
