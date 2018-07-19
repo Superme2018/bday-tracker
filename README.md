@@ -19,6 +19,10 @@ php artisan make:controller BdayController --resource --api --model=Bday <br>
 php artisan db:seed <br>
 ./vendor/bin/phpunit <br>
 
-<strong>Vutify.js in action:</strong>
+<strong>Application Hi-lights (Vutify.js in action)</strong>
 
+As some people are more visually pleased and this application is not going to be live for a while. 
+I thought It could be a good idea to do some .gif move recordings to capture some of the features.
+
+Realtime validation and responce button loader.
 <img src="https://media.giphy.com/media/2bXt6lBcnnRT3Vv8hf/giphy.gif"/>
