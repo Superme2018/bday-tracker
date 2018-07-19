@@ -60,13 +60,15 @@
           <v-btn
             color="deep-blue accent-4"
             @click="toggleState(false)"
+            :disabled="cancelBtn"
           >
             Cancel
           </v-btn>
 
           <v-btn
+            :loading="loading"
             color="deep-blue accent-4"
-            @click="validateFormSend"
+            @click="validateFormAndSend"
             :disabled="!valid"
           >
             Save
@@ -85,10 +87,13 @@
     },
     data () {
       return {
+        loader: null,
+        loading: false,
         date: null,
         dateFormatted: null,
         datePicker: false,
         valid: false,
+        cancelBtn: false,
         name: '',
         saveEnabled: true
       }
@@ -102,20 +107,58 @@
       validateForm(){
         setTimeout(() => this.$validator.validateAll(), 200);
       },
-      validateFormSend(){
+      validateFormAndSend(){
         this.$validator.validateAll().then( res => {
           if(res){
             this.toggleState(true);
+            this.createNewBirthDay(this.name, this.date);
           } else {
             console.log("Error with validation.");
           }
         });
       },
+      createNewBirthDay(name, date){
+
+        this.setLoader(true);
+        this.cancelBtn = true;
+
+        var compData = this;
+        var requestUrl = "http://localhost/bday-tracker/public/api/bday/"
+
+        const requestInstance = axios.get(requestUrl)
+          .then(response => {
+
+              compData.bday = response.data;
+              setTimeout(() => ( compData.setLoader(false),
+              this.$eventHub.$emit('toggle-create-birthday-dialog', false)), 3000);
+
+          }).catch(function(error){
+
+              compData.bday = error;
+
+              compData.setLoader(false);
+              compData.cancelBtn = false;
+
+          })
+
+      },
       formatDate (date) {
-        if (!date) return null
+        if (!date)
+          return null
 
         const [year, month, day] = date.split('-')
         return `${month}/${day}/${year}`
+      },
+      setLoader (state) {
+
+        console.log(state);
+
+        if(state){
+          this.loading = true; return;
+        }
+
+        this.loading = false;
+        return;
       }
     },
     watch: {

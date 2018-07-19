@@ -17837,8 +17837,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   methods: {
     toggle: function toggle(toggleState) {
-
-      if (toggleState) return console.log("Send data");
       return this.dialog = toggleState;
     }
   },
@@ -18028,6 +18026,8 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   $_veeValidate: {
@@ -18035,10 +18035,13 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
   },
   data: function data() {
     return {
+      loader: null,
+      loading: false,
       date: null,
       dateFormatted: null,
       datePicker: false,
       valid: false,
+      cancelBtn: false,
       name: '',
       saveEnabled: true
     };
@@ -18057,15 +18060,39 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
         return _this.$validator.validateAll();
       }, 200);
     },
-    validateFormSend: function validateFormSend() {
+    validateFormAndSend: function validateFormAndSend() {
       var _this2 = this;
 
       this.$validator.validateAll().then(function (res) {
         if (res) {
           _this2.toggleState(true);
+          _this2.createNewBirthDay(_this2.name, _this2.date);
         } else {
           console.log("Error with validation.");
         }
+      });
+    },
+    createNewBirthDay: function createNewBirthDay(name, date) {
+      var _this3 = this;
+
+      this.setLoader(true);
+      this.cancelBtn = true;
+
+      var compData = this;
+      var requestUrl = "http://localhost/bday-tracker/public/api/bday/";
+
+      var requestInstance = axios.get(requestUrl).then(function (response) {
+
+        compData.bday = response.data;
+        setTimeout(function () {
+          return compData.setLoader(false), _this3.$eventHub.$emit('toggle-create-birthday-dialog', false);
+        }, 3000);
+      }).catch(function (error) {
+
+        compData.bday = error;
+
+        compData.setLoader(false);
+        compData.cancelBtn = false;
       });
     },
     formatDate: function formatDate(date) {
@@ -18078,6 +18105,17 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
           day = _date$split2[2];
 
       return month + '/' + day + '/' + year;
+    },
+    setLoader: function setLoader(state) {
+
+      console.log(state);
+
+      if (state) {
+        this.loading = true;return;
+      }
+
+      this.loading = false;
+      return;
     }
   },
   watch: {
@@ -18233,7 +18271,7 @@ var render = function() {
           _c(
             "v-btn",
             {
-              attrs: { color: "deep-blue accent-4" },
+              attrs: { color: "deep-blue accent-4", disabled: _vm.cancelBtn },
               on: {
                 click: function($event) {
                   _vm.toggleState(false)
@@ -18246,8 +18284,12 @@ var render = function() {
           _c(
             "v-btn",
             {
-              attrs: { color: "deep-blue accent-4", disabled: !_vm.valid },
-              on: { click: _vm.validateFormSend }
+              attrs: {
+                loading: _vm.loading,
+                color: "deep-blue accent-4",
+                disabled: !_vm.valid
+              },
+              on: { click: _vm.validateFormAndSend }
             },
             [_vm._v("\n        Save\n      ")]
           )

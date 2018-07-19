@@ -27,9 +27,6 @@
     },
     methods: {
       toggle: function(toggleState){
-
-        if(toggleState)
-          return console.log("Send data")
         return this.dialog = toggleState;
       }
     },
