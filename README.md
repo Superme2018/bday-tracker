@@ -24,5 +24,5 @@ php artisan db:seed <br>
 As some people are more visually pleased and this application is not going to be live for a while. 
 I thought It could be a good idea to do some .gif move recordings to capture some of the features.
 
-Realtime validation and responce button loader.
+<strong>*Realtime validation and responce button loader.<strong>
 <img src="https://media.giphy.com/media/2bXt6lBcnnRT3Vv8hf/giphy.gif"/>
