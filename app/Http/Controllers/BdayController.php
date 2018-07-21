@@ -40,6 +40,13 @@ class BdayController extends Controller
      */
     public function store(Request $request)
     {
+
+        // Error response for testing.
+        return Response::json(array(
+          'code'  =>  401,
+          'message' =>  $message
+        ), 401);
+
         // Check the request.
         if(($validator = Validator::make($request->all(), [
             'name' => 'required',

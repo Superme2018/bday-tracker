@@ -3,6 +3,16 @@
       <v-form ref="form" v-model="valid" lazy-validation>
 
         <v-flex md12 mb-4 >
+          <v-alert
+            v-model="alert"
+            dismissible
+            type="error"
+          >
+          Creation of new birthday failed.
+        </v-alert>
+      </v-flex>
+
+        <v-flex md12 mb-4 >
           <h3 class="title"  prepend-icon="event">
             Create a New Birthday
           </h3>
@@ -87,6 +97,7 @@
     },
     data () {
       return {
+        alert: false,
         loader: null,
         loading: false,
         date: null,
@@ -123,9 +134,9 @@
         this.cancelBtn = true;
 
         var compData = this;
-        var requestUrl = "http://localhost/bday-tracker/public/api/bday/"
+        var requestUrl = "http://localhost/bday-tracker/public/api/bday"
 
-        const requestInstance = axios.get(requestUrl)
+        const requestInstance = axios.post(requestUrl)
           .then(response => {
 
               compData.bday = response.data;
@@ -138,6 +149,8 @@
 
               compData.setLoader(false);
               compData.cancelBtn = false;
+
+              compData.alert = true;
 
           })
 

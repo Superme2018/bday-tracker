@@ -18028,6 +18028,16 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   $_veeValidate: {
@@ -18035,6 +18045,7 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
   },
   data: function data() {
     return {
+      alert: false,
       loader: null,
       loading: false,
       date: null,
@@ -18079,9 +18090,9 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
       this.cancelBtn = true;
 
       var compData = this;
-      var requestUrl = "http://localhost/bday-tracker/public/api/bday/";
+      var requestUrl = "http://localhost/bday-tracker/public/api/bday";
 
-      var requestInstance = axios.get(requestUrl).then(function (response) {
+      var requestInstance = axios.post(requestUrl).then(function (response) {
 
         compData.bday = response.data;
         setTimeout(function () {
@@ -18093,6 +18104,8 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
         compData.setLoader(false);
         compData.cancelBtn = false;
+
+        compData.alert = true;
       });
     },
     formatDate: function formatDate(date) {
@@ -18147,6 +18160,28 @@ var render = function() {
       }
     },
     [
+      _c(
+        "v-flex",
+        { attrs: { md12: "", "mb-4": "" } },
+        [
+          _c(
+            "v-alert",
+            {
+              attrs: { dismissible: "", type: "error" },
+              model: {
+                value: _vm.alert,
+                callback: function($$v) {
+                  _vm.alert = $$v
+                },
+                expression: "alert"
+              }
+            },
+            [_vm._v("\n      Creation of new birthday failed.\n    ")]
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
       _c("v-flex", { attrs: { md12: "", "mb-4": "" } }, [
         _c("h3", { staticClass: "title", attrs: { "prepend-icon": "event" } }, [
           _vm._v("\n        Create a New Birthday\n      ")
