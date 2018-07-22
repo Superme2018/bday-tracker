@@ -27,7 +27,7 @@
             app>
 
             <v-toolbar-title class="mr-5 align-center">
-              <span class="title">Birthday Tracker</span>
+              <main-nav></main-nav>
             </v-toolbar-title>
 
           </v-toolbar>
@@ -36,6 +36,7 @@
             <v-container grid-list-md text-xs-center>
 
               <create-birthday-dialog></create-birthday-dialog>
+              <update-birthday-dialog></update-birthday-dialog>
 
               <birthdays-pagination-component></birthdays-pagination-component>
 

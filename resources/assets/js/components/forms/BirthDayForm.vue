@@ -8,13 +8,13 @@
             dismissible
             type="error"
           >
-          Creation of new birthday failed.
+          {{ this.alertMessage }}
         </v-alert>
       </v-flex>
 
         <v-flex md12 mb-4 >
-          <h3 class="title"  prepend-icon="event">
-            Create a New Birthday
+          <h3 class="title" prepend-icon="event">
+            {{ propFormTitle }}
           </h3>
         </v-flex>
 
@@ -28,7 +28,8 @@
             v-validate="'required|max:10'"
             :error-messages="errors.collect('name')"
             data-vv-name="name"
-          ></v-text-field>
+          >
+          </v-text-field>
         </v-flex>
 
         <v-flex md12 >
@@ -95,25 +96,57 @@
     $_veeValidate: {
       validator: 'new'
     },
+    props: [
+      'propFormType',
+      'propFormTitle'
+    ],
     data () {
       return {
         alert: false,
+        alertMessage: null,
         loader: null,
         loading: false,
         date: null,
+        id: null,
+        name: null,
         dateFormatted: null,
         datePicker: false,
         valid: false,
         cancelBtn: false,
-        name: '',
+
         saveEnabled: true
       }
     },
-    created() {},
-    beforeDestroy() {},
+    created() {
+      this.$eventHub.$on('set-birthday-form', this.setForm);
+      this.$eventHub.$on('resets-birthday-form', this.resets);
+    },
+    beforeDestroy() {
+      this.$eventHub.$off('set-birthday-form');
+      this.$eventHub.$off('resets-birthday-form');
+    },
     methods: {
+      setForm(data){
+
+        if(!data.name || !data.date || !data.id)
+          this.alert = true; this.alertMessage = "Missing required parameters.";
+
+        this.id = data.id;
+        this.name = data.name;
+        this.dateFormatted = this.formatDate(data.date);
+
+      },
+      resets(){
+        this.alert = false;
+      },
       toggleState: function(toggleState){
-        this.$eventHub.$emit('toggle-create-birthday-dialog', toggleState);
+
+        if(this.propFormType == "update"){
+          this.$eventHub.$emit('toggle-update-birthday-dialog', toggleState);
+        } else {
+          this.$eventHub.$emit('toggle-create-birthday-dialog', toggleState);
+        }
+
       },
       validateForm(){
         setTimeout(() => this.$validator.validateAll(), 200);
@@ -139,7 +172,7 @@
         const requestInstance = axios.post(requestUrl,
             {
               name: name,
-              birth_day: date
+              birthDay: date
             })
           .then(response => {
 
@@ -158,6 +191,7 @@
               compData.cancelBtn = false;
 
               compData.alert = true;
+              this.alertMessage = "Unable to create new Birthday record.";
 
           })
 

@@ -4,7 +4,7 @@
 
     <v-layout grey darken-3 >
       <v-flex md12 ma-4>
-        <birthday-form propFormTitle="Create a New Birthday" propFormType="create"></birthday-form>
+        <birthday-form propFormTitle="Update a Birthday" propFormType="update"></birthday-form>
       </v-flex>
     </v-layout>
 
@@ -16,14 +16,16 @@
   export default {
     data () {
       return {
-        dialog: false
+        dialog: false,
+        name: '',
+        date: ''
       }
     },
     created() {
-      this.$eventHub.$on('toggle-create-birthday-dialog', this.toggle);
+      this.$eventHub.$on('toggle-update-birthday-dialog', this.toggle);
     },
     beforeDestroy() {
-      this.$eventHub.$off('toggle-create-birthday-dialog');
+      this.$eventHub.$off('toggle-update-birthday-dialog');
     },
     methods: {
       toggle: function(toggleState){

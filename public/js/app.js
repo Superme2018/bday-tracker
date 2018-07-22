@@ -13456,12 +13456,14 @@ Vue.component('gravatar', __webpack_require__(62));
 // App specific
 Vue.component('birthdays-component', __webpack_require__(74));
 Vue.component('birthdays-pagination-component', __webpack_require__(77));
+Vue.component('main-nav', __webpack_require__(112));
 
 // Dialogs
 Vue.component('create-birthday-dialog', __webpack_require__(80));
+Vue.component('update-birthday-dialog', __webpack_require__(109));
 
 // Forms
-Vue.component('create-birthday-form', __webpack_require__(83));
+Vue.component('birthday-form', __webpack_require__(106));
 
 window.Vuetify = __webpack_require__(86);
 
@@ -17520,7 +17522,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.alert = state;
             setTimeout(function () {
                 return _this.alert = !state;
-            }, 2000); //<- would be nice to have a transition.
+            }, 3000); //<- would be nice to have a transition.
         }
     }
 });
@@ -17877,7 +17879,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      dialog: true
+      dialog: false
     };
   },
   created: function created() {
@@ -17889,6 +17891,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   methods: {
     toggle: function toggle(toggleState) {
+      this.$eventHub.$emit('resets-birthday-form');
       return this.dialog = toggleState;
     }
   },
@@ -17923,7 +17926,14 @@ var render = function() {
           _c(
             "v-flex",
             { attrs: { md12: "", "ma-4": "" } },
-            [_c("create-birthday-form")],
+            [
+              _c("birthday-form", {
+                attrs: {
+                  propFormTitle: "Create a New Birthday",
+                  propFormType: "create"
+                }
+              })
+            ],
             1
           )
         ],
@@ -17944,463 +17954,9 @@ if (false) {
 }
 
 /***/ }),
-/* 83 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(1)
-/* script */
-var __vue_script__ = __webpack_require__(84)
-/* template */
-var __vue_template__ = __webpack_require__(85)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources\\assets\\js\\components\\forms\\CreateBirthDayForm.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-0d5107be", Component.options)
-  } else {
-    hotAPI.reload("data-v-0d5107be", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 84 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  $_veeValidate: {
-    validator: 'new'
-  },
-  data: function data() {
-    return {
-      alert: false,
-      loader: null,
-      loading: false,
-      date: null,
-      dateFormatted: null,
-      datePicker: false,
-      valid: false,
-      cancelBtn: false,
-      name: '',
-      saveEnabled: true
-    };
-  },
-  created: function created() {},
-  beforeDestroy: function beforeDestroy() {},
-
-  methods: {
-    toggleState: function toggleState(_toggleState) {
-      this.$eventHub.$emit('toggle-create-birthday-dialog', _toggleState);
-    },
-    validateForm: function validateForm() {
-      var _this = this;
-
-      setTimeout(function () {
-        return _this.$validator.validateAll();
-      }, 200);
-    },
-    validateFormAndSend: function validateFormAndSend() {
-      var _this2 = this;
-
-      this.$validator.validateAll().then(function (res) {
-        if (res) {
-          _this2.toggleState(true);
-          _this2.createNewBirthDay(_this2.name, _this2.date);
-        } else {
-          console.log("Error with validation.");
-        }
-      });
-    },
-    createNewBirthDay: function createNewBirthDay(name, date) {
-      var _this3 = this;
-
-      this.setLoader(true);
-      this.cancelBtn = true;
-
-      var compData = this;
-      var requestUrl = "http://localhost/bday-tracker/public/api/bday";
-
-      var requestInstance = axios.post(requestUrl, {
-        name: name,
-        birth_day: date
-      }).then(function (response) {
-
-        compData.bday = response.data;
-
-        compData.setLoader(false), _this3.$eventHub.$emit('toggle-create-birthday-dialog', false);
-        _this3.$eventHub.$emit('change-page-request', { page: 5 }); // Page 5 for testing.
-        _this3.$eventHub.$emit('birthday-created-notification', { state: true });
-      }).catch(function (error) {
-
-        compData.bday = error;
-
-        compData.setLoader(false);
-        compData.cancelBtn = false;
-
-        compData.alert = true;
-      });
-    },
-    formatDate: function formatDate(date) {
-      if (!date) return null;
-
-      var _date$split = date.split('-'),
-          _date$split2 = _slicedToArray(_date$split, 3),
-          year = _date$split2[0],
-          month = _date$split2[1],
-          day = _date$split2[2];
-
-      return month + '/' + day + '/' + year;
-    },
-    setLoader: function setLoader(state) {
-
-      console.log(state);
-
-      if (state) {
-        this.loading = true;return;
-      }
-
-      this.loading = false;return;
-    }
-  },
-  watch: {
-    date: function date(val) {
-      this.dateFormatted = this.formatDate(this.date);
-    }
-  }
-});
-
-/***/ }),
-/* 85 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "v-form",
-    {
-      ref: "form",
-      attrs: { "lazy-validation": "" },
-      model: {
-        value: _vm.valid,
-        callback: function($$v) {
-          _vm.valid = $$v
-        },
-        expression: "valid"
-      }
-    },
-    [
-      _c(
-        "v-flex",
-        { attrs: { md12: "", "mb-4": "" } },
-        [
-          _c(
-            "v-alert",
-            {
-              attrs: { dismissible: "", type: "error" },
-              model: {
-                value: _vm.alert,
-                callback: function($$v) {
-                  _vm.alert = $$v
-                },
-                expression: "alert"
-              }
-            },
-            [_vm._v("\n      Creation of new birthday failed.\n    ")]
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c("v-flex", { attrs: { md12: "", "mb-4": "" } }, [
-        _c("h3", { staticClass: "title", attrs: { "prepend-icon": "event" } }, [
-          _vm._v("\n        Create a New Birthday\n      ")
-        ])
-      ]),
-      _vm._v(" "),
-      _c(
-        "v-flex",
-        { attrs: { md12: "" } },
-        [
-          _c("v-text-field", {
-            directives: [
-              {
-                name: "validate",
-                rawName: "v-validate",
-                value: "required|max:10",
-                expression: "'required|max:10'"
-              }
-            ],
-            attrs: {
-              counter: 10,
-              label: "Name",
-              required: "",
-              "prepend-icon": "fingerprint",
-              "error-messages": _vm.errors.collect("name"),
-              "data-vv-name": "name"
-            },
-            model: {
-              value: _vm.name,
-              callback: function($$v) {
-                _vm.name = $$v
-              },
-              expression: "name"
-            }
-          })
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-flex",
-        { attrs: { md12: "" } },
-        [
-          _c(
-            "v-menu",
-            {
-              ref: "datePicker",
-              attrs: {
-                "close-on-content-click": false,
-                "nudge-right": 40,
-                lazy: "",
-                transition: "scale-transition",
-                "offset-y": "",
-                "full-width": "",
-                "max-width": "290px",
-                "min-width": "290px"
-              },
-              on: { "update:returnValue": _vm.validateForm },
-              model: {
-                value: _vm.datePicker,
-                callback: function($$v) {
-                  _vm.datePicker = $$v
-                },
-                expression: "datePicker"
-              }
-            },
-            [
-              _c("v-text-field", {
-                directives: [
-                  {
-                    name: "validate",
-                    rawName: "v-validate",
-                    value: "required|date_format:MM/DD/YYYY",
-                    expression: "'required|date_format:MM/DD/YYYY'"
-                  }
-                ],
-                attrs: {
-                  slot: "activator",
-                  label: "Date of Birth",
-                  hint: "DOB must be in MM/DD/YYYY format",
-                  "persistent-hint": "",
-                  "prepend-icon": "event",
-                  "data-vv-name": "dateFormatted",
-                  "error-messages": _vm.errors.collect("dateFormatted")
-                },
-                slot: "activator",
-                model: {
-                  value: _vm.dateFormatted,
-                  callback: function($$v) {
-                    _vm.dateFormatted = $$v
-                  },
-                  expression: "dateFormatted"
-                }
-              }),
-              _vm._v(" "),
-              _c("v-date-picker", {
-                attrs: { "no-title": "" },
-                on: {
-                  input: function($event) {
-                    _vm.datePicker = false
-                  }
-                },
-                model: {
-                  value: _vm.date,
-                  callback: function($$v) {
-                    _vm.date = $$v
-                  },
-                  expression: "date"
-                }
-              })
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-flex",
-        { attrs: { md12: "", "mt-4": "" } },
-        [
-          _c(
-            "v-btn",
-            {
-              attrs: { color: "deep-blue accent-4", disabled: _vm.cancelBtn },
-              on: {
-                click: function($event) {
-                  _vm.toggleState(false)
-                }
-              }
-            },
-            [_vm._v("\n        Cancel\n      ")]
-          ),
-          _vm._v(" "),
-          _c(
-            "v-btn",
-            {
-              attrs: {
-                loading: _vm.loading,
-                color: "deep-blue accent-4",
-                disabled: !_vm.valid
-              },
-              on: { click: _vm.validateFormAndSend }
-            },
-            [_vm._v("\n        Save\n      ")]
-          )
-        ],
-        1
-      )
-    ],
-    1
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-0d5107be", module.exports)
-  }
-}
-
-/***/ }),
+/* 83 */,
+/* 84 */,
+/* 85 */,
 /* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -46467,6 +46023,775 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 103 */,
+/* 104 */,
+/* 105 */,
+/* 106 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(107)
+/* template */
+var __vue_template__ = __webpack_require__(108)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\forms\\BirthDayForm.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-e14cbff6", Component.options)
+  } else {
+    hotAPI.reload("data-v-e14cbff6", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 107 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  $_veeValidate: {
+    validator: 'new'
+  },
+  props: ['propFormType', 'propFormTitle'],
+  data: function data() {
+    return {
+      alert: false,
+      alertMessage: null,
+      loader: null,
+      loading: false,
+      date: null,
+      id: null,
+      name: null,
+      dateFormatted: null,
+      datePicker: false,
+      valid: false,
+      cancelBtn: false,
+
+      saveEnabled: true
+    };
+  },
+  created: function created() {
+    this.$eventHub.$on('set-birthday-form', this.setForm);
+    this.$eventHub.$on('resets-birthday-form', this.resets);
+  },
+  beforeDestroy: function beforeDestroy() {
+    this.$eventHub.$off('set-birthday-form');
+    this.$eventHub.$off('resets-birthday-form');
+  },
+
+  methods: {
+    setForm: function setForm(data) {
+
+      if (!data.name || !data.date || !data.id) this.alert = true;this.alertMessage = "Missing required parameters.";
+
+      this.id = data.id;
+      this.name = data.name;
+      this.dateFormatted = this.formatDate(data.date);
+    },
+    resets: function resets() {
+      this.alert = false;
+    },
+
+    toggleState: function toggleState(_toggleState) {
+
+      if (this.propFormType == "update") {
+        this.$eventHub.$emit('toggle-update-birthday-dialog', _toggleState);
+      } else {
+        this.$eventHub.$emit('toggle-create-birthday-dialog', _toggleState);
+      }
+    },
+    validateForm: function validateForm() {
+      var _this = this;
+
+      setTimeout(function () {
+        return _this.$validator.validateAll();
+      }, 200);
+    },
+    validateFormAndSend: function validateFormAndSend() {
+      var _this2 = this;
+
+      this.$validator.validateAll().then(function (res) {
+        if (res) {
+          _this2.toggleState(true);
+          _this2.createNewBirthDay(_this2.name, _this2.date);
+        } else {
+          console.log("Error with validation.");
+        }
+      });
+    },
+    createNewBirthDay: function createNewBirthDay(name, date) {
+      var _this3 = this;
+
+      this.setLoader(true);
+      this.cancelBtn = true;
+
+      var compData = this;
+      var requestUrl = "http://localhost/bday-tracker/public/api/bday";
+
+      var requestInstance = axios.post(requestUrl, {
+        name: name,
+        birthDay: date
+      }).then(function (response) {
+
+        compData.bday = response.data;
+
+        compData.setLoader(false), _this3.$eventHub.$emit('toggle-create-birthday-dialog', false);
+        _this3.$eventHub.$emit('change-page-request', { page: 5 }); // Page 5 for testing.
+        _this3.$eventHub.$emit('birthday-created-notification', { state: true });
+      }).catch(function (error) {
+
+        compData.bday = error;
+
+        compData.setLoader(false);
+        compData.cancelBtn = false;
+
+        compData.alert = true;
+        this.alertMessage = "Unable to create new Birthday record.";
+      });
+    },
+    formatDate: function formatDate(date) {
+      if (!date) return null;
+
+      var _date$split = date.split('-'),
+          _date$split2 = _slicedToArray(_date$split, 3),
+          year = _date$split2[0],
+          month = _date$split2[1],
+          day = _date$split2[2];
+
+      return month + '/' + day + '/' + year;
+    },
+    setLoader: function setLoader(state) {
+
+      console.log(state);
+
+      if (state) {
+        this.loading = true;return;
+      }
+
+      this.loading = false;return;
+    }
+  },
+  watch: {
+    date: function date(val) {
+      this.dateFormatted = this.formatDate(this.date);
+    }
+  }
+});
+
+/***/ }),
+/* 108 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "v-form",
+    {
+      ref: "form",
+      attrs: { "lazy-validation": "" },
+      model: {
+        value: _vm.valid,
+        callback: function($$v) {
+          _vm.valid = $$v
+        },
+        expression: "valid"
+      }
+    },
+    [
+      _c(
+        "v-flex",
+        { attrs: { md12: "", "mb-4": "" } },
+        [
+          _c(
+            "v-alert",
+            {
+              attrs: { dismissible: "", type: "error" },
+              model: {
+                value: _vm.alert,
+                callback: function($$v) {
+                  _vm.alert = $$v
+                },
+                expression: "alert"
+              }
+            },
+            [_vm._v("\n      " + _vm._s(this.alertMessage) + "\n    ")]
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c("v-flex", { attrs: { md12: "", "mb-4": "" } }, [
+        _c("h3", { staticClass: "title", attrs: { "prepend-icon": "event" } }, [
+          _vm._v("\n        " + _vm._s(_vm.propFormTitle) + "\n      ")
+        ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "v-flex",
+        { attrs: { md12: "" } },
+        [
+          _c("v-text-field", {
+            directives: [
+              {
+                name: "validate",
+                rawName: "v-validate",
+                value: "required|max:10",
+                expression: "'required|max:10'"
+              }
+            ],
+            attrs: {
+              counter: 10,
+              label: "Name",
+              required: "",
+              "prepend-icon": "fingerprint",
+              "error-messages": _vm.errors.collect("name"),
+              "data-vv-name": "name"
+            },
+            model: {
+              value: _vm.name,
+              callback: function($$v) {
+                _vm.name = $$v
+              },
+              expression: "name"
+            }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-flex",
+        { attrs: { md12: "" } },
+        [
+          _c(
+            "v-menu",
+            {
+              ref: "datePicker",
+              attrs: {
+                "close-on-content-click": false,
+                "nudge-right": 40,
+                lazy: "",
+                transition: "scale-transition",
+                "offset-y": "",
+                "full-width": "",
+                "max-width": "290px",
+                "min-width": "290px"
+              },
+              on: { "update:returnValue": _vm.validateForm },
+              model: {
+                value: _vm.datePicker,
+                callback: function($$v) {
+                  _vm.datePicker = $$v
+                },
+                expression: "datePicker"
+              }
+            },
+            [
+              _c("v-text-field", {
+                directives: [
+                  {
+                    name: "validate",
+                    rawName: "v-validate",
+                    value: "required|date_format:MM/DD/YYYY",
+                    expression: "'required|date_format:MM/DD/YYYY'"
+                  }
+                ],
+                attrs: {
+                  slot: "activator",
+                  label: "Date of Birth",
+                  hint: "DOB must be in MM/DD/YYYY format",
+                  "persistent-hint": "",
+                  "prepend-icon": "event",
+                  "data-vv-name": "dateFormatted",
+                  "error-messages": _vm.errors.collect("dateFormatted")
+                },
+                slot: "activator",
+                model: {
+                  value: _vm.dateFormatted,
+                  callback: function($$v) {
+                    _vm.dateFormatted = $$v
+                  },
+                  expression: "dateFormatted"
+                }
+              }),
+              _vm._v(" "),
+              _c("v-date-picker", {
+                attrs: { "no-title": "" },
+                on: {
+                  input: function($event) {
+                    _vm.datePicker = false
+                  }
+                },
+                model: {
+                  value: _vm.date,
+                  callback: function($$v) {
+                    _vm.date = $$v
+                  },
+                  expression: "date"
+                }
+              })
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-flex",
+        { attrs: { md12: "", "mt-4": "" } },
+        [
+          _c(
+            "v-btn",
+            {
+              attrs: { color: "deep-blue accent-4", disabled: _vm.cancelBtn },
+              on: {
+                click: function($event) {
+                  _vm.toggleState(false)
+                }
+              }
+            },
+            [_vm._v("\n        Cancel\n      ")]
+          ),
+          _vm._v(" "),
+          _c(
+            "v-btn",
+            {
+              attrs: {
+                loading: _vm.loading,
+                color: "deep-blue accent-4",
+                disabled: !_vm.valid
+              },
+              on: { click: _vm.validateFormAndSend }
+            },
+            [_vm._v("\n        Save\n      ")]
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-e14cbff6", module.exports)
+  }
+}
+
+/***/ }),
+/* 109 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(110)
+/* template */
+var __vue_template__ = __webpack_require__(111)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\dialogs\\UpdateBirthDayDialog.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-609b1bb6", Component.options)
+  } else {
+    hotAPI.reload("data-v-609b1bb6", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 110 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      dialog: false,
+      name: '',
+      date: ''
+    };
+  },
+  created: function created() {
+    this.$eventHub.$on('toggle-update-birthday-dialog', this.toggle);
+  },
+  beforeDestroy: function beforeDestroy() {
+    this.$eventHub.$off('toggle-update-birthday-dialog');
+  },
+
+  methods: {
+    toggle: function toggle(toggleState) {
+      this.$eventHub.$emit('resets-birthday-form');
+      return this.dialog = toggleState;
+    }
+  },
+  watch: {}
+});
+
+/***/ }),
+/* 111 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "v-dialog",
+    {
+      attrs: { persistent: "", "max-width": "500px" },
+      model: {
+        value: _vm.dialog,
+        callback: function($$v) {
+          _vm.dialog = $$v
+        },
+        expression: "dialog"
+      }
+    },
+    [
+      _c(
+        "v-layout",
+        { attrs: { grey: "", "darken-3": "" } },
+        [
+          _c(
+            "v-flex",
+            { attrs: { md12: "", "ma-4": "" } },
+            [
+              _c("birthday-form", {
+                attrs: {
+                  propFormTitle: "Update a Birthday",
+                  propFormType: "update"
+                }
+              })
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-609b1bb6", module.exports)
+  }
+}
+
+/***/ }),
+/* 112 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(113)
+/* template */
+var __vue_template__ = __webpack_require__(114)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\MainNavComponent.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-5f919d6a", Component.options)
+  } else {
+    hotAPI.reload("data-v-5f919d6a", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 113 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {};
+  },
+  created: function created() {},
+  beforeDestroy: function beforeDestroy() {},
+
+  methods: {
+    createBirthday: function createBirthday() {
+      this.$eventHub.$emit('toggle-create-birthday-dialog', true);
+    },
+    updateBirthday: function updateBirthday(data) {
+      this.$eventHub.$emit('toggle-update-birthday-dialog', true);
+      this.$eventHub.$emit('set-birthday-form', data);
+    }
+  },
+  watch: {}
+});
+
+/***/ }),
+/* 114 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "v-flex",
+    { attrs: { md12: "", "ma-4": "" } },
+    [
+      _c("span", { staticClass: "title" }, [_vm._v("Birthday Tracker")]),
+      _vm._v(" "),
+      _c(
+        "v-btn",
+        { attrs: { color: "green" }, on: { click: _vm.createBirthday } },
+        [_vm._v("Create Birthday")]
+      ),
+      _vm._v(" "),
+      _c(
+        "v-btn",
+        {
+          attrs: { color: "green" },
+          on: {
+            click: function($event) {
+              _vm.updateBirthday({ name: "John", date: "2015-01-01" })
+            }
+          }
+        },
+        [_vm._v("Edit Birthday")]
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-5f919d6a", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

@@ -25,12 +25,14 @@ Vue.component('gravatar', require('./components/GravatarComponent.vue'));
 // App specific
 Vue.component('birthdays-component', require('./components/BirthDaysComponent.vue'));
 Vue.component('birthdays-pagination-component', require('./components/BirthDaysPagination.vue'));
+Vue.component('main-nav', require('./components/MainNavComponent.vue'));
 
 // Dialogs
 Vue.component('create-birthday-dialog', require('./components/dialogs/CreateBirthDayDialog.vue'));
+Vue.component('update-birthday-dialog', require('./components/dialogs/UpdateBirthDayDialog.vue'));
 
 // Forms
-Vue.component('create-birthday-form', require('./components/forms/CreateBirthDayForm.vue'));
+Vue.component('birthday-form', require('./components/forms/BirthDayForm.vue'));
 
 window.Vuetify = require('vuetify');
 

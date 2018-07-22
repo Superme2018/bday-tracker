@@ -92,7 +92,7 @@
             },
             alertToggle: function(state){
               this.alert = state;
-              setTimeout(() =>this.alert = !state, 2000); //<- would be nice to have a transition.
+              setTimeout(() =>this.alert = !state, 3000); //<- would be nice to have a transition.
             }
         }
     }
