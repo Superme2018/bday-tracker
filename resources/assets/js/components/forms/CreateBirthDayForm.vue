@@ -136,12 +136,19 @@
         var compData = this;
         var requestUrl = "http://localhost/bday-tracker/public/api/bday"
 
-        const requestInstance = axios.post(requestUrl)
+        const requestInstance = axios.post(requestUrl,
+            {
+              name: name,
+              birth_day: date
+            })
           .then(response => {
 
               compData.bday = response.data;
-              setTimeout(() => ( compData.setLoader(false),
-              this.$eventHub.$emit('toggle-create-birthday-dialog', false)), 3000);
+
+              compData.setLoader(false),
+              this.$eventHub.$emit('toggle-create-birthday-dialog', false);
+              this.$eventHub.$emit('change-page-request', {page:5}); // Page 5 for testing.
+              this.$eventHub.$emit('birthday-created-notification', {state:true});
 
           }).catch(function(error){
 
@@ -170,8 +177,7 @@
           this.loading = true; return;
         }
 
-        this.loading = false;
-        return;
+        this.loading = false; return;
       }
     },
     watch: {

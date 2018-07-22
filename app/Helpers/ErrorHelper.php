@@ -5,7 +5,10 @@ namespace App\Helpers;
 class ErrorHelper {
 
     public function BadUpdate(){
-        return response()->json(['error' => 'Bad update'], 403);
+        return Response::json(array(
+                  'code'  =>  401,
+                  'message' =>  $message
+                ), 401);
     }
 
     public function BadDelete(){

@@ -17464,20 +17464,34 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
             bdays: {},
-            loading: true
+            loading: true,
+            alert: false
         };
     },
     created: function created() {
         this.loadBdays();
         this.$eventHub.$on('change-page-request', this.loadBdays);
+        this.$eventHub.$on('birthday-created-notification', this.alertToggle);
     },
     beforeDestroy: function beforeDestroy() {
         this.$eventHub.$off('change-page-request');
+        this.$eventHub.$off('birthday-created-notification');
     },
 
     methods: {
@@ -17499,6 +17513,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 compData.loading = false; // <- Quick test just to get the loading bool to change.
                 // Kind of keen to explore events at a later date.
             });
+        },
+        alertToggle: function alertToggle(state) {
+            var _this = this;
+
+            this.alert = state;
+            setTimeout(function () {
+                return _this.alert = !state;
+            }, 2000); //<- would be nice to have a transition.
         }
     }
 });
@@ -17517,73 +17539,103 @@ var render = function() {
       _c(
         "v-layout",
         { attrs: { row: "", wrap: "" } },
-        _vm._l(_vm.bdays.data, function(bday) {
-          return _c(
+        [
+          _c(
             "v-flex",
-            { key: bday.id, attrs: { xs2: "" } },
+            { attrs: { xs12: "" } },
             [
               _c(
-                "v-card",
-                { attrs: { dark: "", color: "primary" } },
+                "v-alert",
+                {
+                  attrs: { type: "success" },
+                  model: {
+                    value: _vm.alert,
+                    callback: function($$v) {
+                      _vm.alert = $$v
+                    },
+                    expression: "alert"
+                  }
+                },
                 [
-                  _c("v-card-media", {
-                    attrs: {
-                      src: "https://cdn.vuetifyjs.com/images/cards/desert.jpg",
-                      height: "200px"
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c(
-                    "v-card-title",
-                    { attrs: { "primary-title": "" } },
-                    [
-                      _c(
-                        "v-flex",
-                        { attrs: { xs12: "", "text-xs-left": "" } },
-                        [
-                          _c("div", { staticClass: "title" }, [
-                            _vm._v(_vm._s(bday.name))
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "subheading" }, [
-                            _vm._v(_vm._s(bday.days_to_go))
-                          ])
-                        ]
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c("v-divider"),
-                  _vm._v(" "),
-                  _c(
-                    "v-card-text",
-                    [
-                      _c(
-                        "v-flex",
-                        { attrs: { xs12: "", "text-xs-left": "" } },
-                        [
-                          _c("div", [
-                            _vm._v("Date of Birth: "),
-                            _c("strong", [_vm._v(_vm._s(bday.birth_day))])
-                          ]),
-                          _vm._v(" "),
-                          _c("div", [
-                            _vm._v("Age on next Birthday: "),
-                            _c("strong", [_vm._v(_vm._s(bday.age_in_years))])
-                          ])
-                        ]
-                      )
-                    ],
-                    1
+                  _vm._v(
+                    "\n          Successfully created a new birthday!\n        "
                   )
-                ],
-                1
+                ]
               )
             ],
             1
-          )
-        })
+          ),
+          _vm._v(" "),
+          _vm._l(_vm.bdays.data, function(bday) {
+            return _c(
+              "v-flex",
+              { key: bday.id, attrs: { xs2: "" } },
+              [
+                _c(
+                  "v-card",
+                  { attrs: { dark: "", color: "primary" } },
+                  [
+                    _c("v-card-media", {
+                      attrs: {
+                        src:
+                          "https://cdn.vuetifyjs.com/images/cards/desert.jpg",
+                        height: "200px"
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "v-card-title",
+                      { attrs: { "primary-title": "" } },
+                      [
+                        _c(
+                          "v-flex",
+                          { attrs: { xs12: "", "text-xs-left": "" } },
+                          [
+                            _c("div", { staticClass: "title" }, [
+                              _vm._v(_vm._s(bday.name))
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "subheading" }, [
+                              _vm._v(_vm._s(bday.days_to_go))
+                            ])
+                          ]
+                        )
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c("v-divider"),
+                    _vm._v(" "),
+                    _c(
+                      "v-card-text",
+                      [
+                        _c(
+                          "v-flex",
+                          { attrs: { xs12: "", "text-xs-left": "" } },
+                          [
+                            _c("div", [
+                              _vm._v("Date of Birth: "),
+                              _c("strong", [_vm._v(_vm._s(bday.birth_day))])
+                            ]),
+                            _vm._v(" "),
+                            _c("div", [
+                              _vm._v("Age on next Birthday: "),
+                              _c("strong", [_vm._v(_vm._s(bday.age_in_years))])
+                            ])
+                          ]
+                        )
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                )
+              ],
+              1
+            )
+          })
+        ],
+        2
       )
     ],
     1
@@ -18092,12 +18144,16 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
       var compData = this;
       var requestUrl = "http://localhost/bday-tracker/public/api/bday";
 
-      var requestInstance = axios.post(requestUrl).then(function (response) {
+      var requestInstance = axios.post(requestUrl, {
+        name: name,
+        birth_day: date
+      }).then(function (response) {
 
         compData.bday = response.data;
-        setTimeout(function () {
-          return compData.setLoader(false), _this3.$eventHub.$emit('toggle-create-birthday-dialog', false);
-        }, 3000);
+
+        compData.setLoader(false), _this3.$eventHub.$emit('toggle-create-birthday-dialog', false);
+        _this3.$eventHub.$emit('change-page-request', { page: 5 }); // Page 5 for testing.
+        _this3.$eventHub.$emit('birthday-created-notification', { state: true });
       }).catch(function (error) {
 
         compData.bday = error;
@@ -18127,8 +18183,7 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
         this.loading = true;return;
       }
 
-      this.loading = false;
-      return;
+      this.loading = false;return;
     }
   },
   watch: {

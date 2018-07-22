@@ -41,19 +41,13 @@ class BdayController extends Controller
     public function store(Request $request)
     {
 
-        // Error response for testing.
-        return Response::json(array(
-          'code'  =>  401,
-          'message' =>  $message
-        ), 401);
-
         // Check the request.
         if(($validator = Validator::make($request->all(), [
             'name' => 'required',
             'birth_day' => 'required|date'
         ]))->fails())
         {
-            return $validator->messages();
+            return (new ErrorHelper)->BadUpdate(); // <- TODO: use dependency injection in construct.
         }
 
         if($newBday = (new Bday())->createBday($request->all()))

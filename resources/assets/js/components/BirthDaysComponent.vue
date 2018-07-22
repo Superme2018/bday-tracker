@@ -4,6 +4,17 @@
 
     <v-layout row wrap>
 
+      <v-flex xs12>
+
+          <v-alert
+            v-model="alert"
+            type="success"
+          >
+            Successfully created a new birthday!
+          </v-alert>
+
+      </v-flex>
+
       <v-flex v-for="bday in bdays.data" :key="bday.id" xs2>
         <v-card dark color="primary" >
 
@@ -43,16 +54,18 @@
         data(){
             return {
               bdays: {},
-              loading: true
+              loading: true,
+              alert: false
             }
         },
         created() {
            this.loadBdays();
            this.$eventHub.$on('change-page-request', this.loadBdays);
-
+           this.$eventHub.$on('birthday-created-notification', this.alertToggle);
         },
         beforeDestroy() {
           this.$eventHub.$off('change-page-request');
+          this.$eventHub.$off('birthday-created-notification');
         },
         methods: {
             loadBdays: function (page) {
@@ -76,6 +89,10 @@
                     compData.loading = false; // <- Quick test just to get the loading bool to change.
                     // Kind of keen to explore events at a later date.
                 })
+            },
+            alertToggle: function(state){
+              this.alert = state;
+              setTimeout(() =>this.alert = !state, 2000); //<- would be nice to have a transition.
             }
         }
     }

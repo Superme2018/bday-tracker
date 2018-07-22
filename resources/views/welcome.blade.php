@@ -38,7 +38,9 @@
               <create-birthday-dialog></create-birthday-dialog>
 
               <birthdays-pagination-component></birthdays-pagination-component>
+
               <birthdays-component></birthdays-component>
+
             </v-container>
           </v-content>
 
