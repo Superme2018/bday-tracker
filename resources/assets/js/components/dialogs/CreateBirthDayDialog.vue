@@ -14,16 +14,12 @@
 
 <script>
   export default {
-    data () {
-      return {
-        dialog: false
+    computed:{
+      dialog: {
+        get(){
+          return this.$store.state.createBirthDayDialog.visible;
+        }
       }
-    },
-    created() {
-      this.$eventHub.$on('toggle-create-birthday-dialog', this.toggle);
-    },
-    beforeDestroy() {
-      this.$eventHub.$off('toggle-create-birthday-dialog');
     },
     methods: {
       toggle: function(toggleState){

@@ -100,51 +100,65 @@
       'propFormType',
       'propFormTitle'
     ],
+    computed:{
+      name: {
+        get(){
+          return this.$store.state.birthDayForm.name;
+        }
+      },
+      date: {
+        get(){
+          return this.$store.state.birthDayForm.birthDay;
+        },
+        set(date){
+          this.$store.commit('setBirthDay', date);
+        }
+      },
+    },
     data () {
       return {
         alert: false,
         alertMessage: null,
         loader: null,
         loading: false,
-        date: null,
         id: null,
-        name: null,
         dateFormatted: null,
         datePicker: false,
         valid: false,
         cancelBtn: false,
-
         saveEnabled: true
       }
     },
     created() {
-      this.$eventHub.$on('set-birthday-form', this.setForm);
-      this.$eventHub.$on('resets-birthday-form', this.resets);
+      //this.$eventHub.$on('set-birthday-form', this.setForm);
+      //this.$eventHub.$on('resets-birthday-form', this.resets);
     },
     beforeDestroy() {
-      this.$eventHub.$off('set-birthday-form');
-      this.$eventHub.$off('resets-birthday-form');
+      //this.$eventHub.$off('set-birthday-form');
+      //this.$eventHub.$off('resets-birthday-form');
     },
     methods: {
       setForm(data){
 
-        if(!data.name || !data.date || !data.id)
-          this.alert = true; this.alertMessage = "Missing required parameters.";
+        //if(!data.name || !data.date || !data.id)
+        //  this.alert = true; this.alertMessage = "Missing required parameters.";
 
-        this.id = data.id;
-        this.name = data.name;
-        this.dateFormatted = this.formatDate(data.date);
+        //this.id = data.id;
+        //this.name = data.name;
+        //this.dateFormatted = this.formatDate(data.date);
 
       },
       resets(){
-        this.alert = false;
+        //this.alert = false;
       },
       toggleState: function(toggleState){
 
         if(this.propFormType == "update"){
-          this.$eventHub.$emit('toggle-update-birthday-dialog', toggleState);
+          this.$store.commit('hideUpdateBirthDayDialog');
+          //this.$eventHub.$emit('toggle-update-birthday-dialog', toggleState);
         } else {
-          this.$eventHub.$emit('toggle-create-birthday-dialog', toggleState);
+          this.$store.commit('hideCreateBirthDayDialog');
+          //this.$eventHub.$emit('toggle-create-birthday-dialog', toggleState);
         }
 
       },
@@ -215,7 +229,7 @@
       }
     },
     watch: {
-      date (val) {
+      date (date) {
         this.dateFormatted = this.formatDate(this.date)
       }
     },
