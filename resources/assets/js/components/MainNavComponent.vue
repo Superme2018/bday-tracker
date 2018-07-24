@@ -11,11 +11,10 @@
 
 </template>
 
-
 <script>
 
-  import {mapGetters} from 'vuex';
-  import {mapMutations} from 'vuex';
+  //import {mapGetters} from 'vuex';
+  //import {mapMutations} from 'vuex';
 
   export default {
     computed: {
@@ -30,13 +29,14 @@
     beforeDestroy() {},
     methods: {
      createBirthday: function(){
-       this.$store.commit('showCreateBirthDayDialog');
-       //this.$eventHub.$emit('toggle-create-birthday-dialog', true);
+       this.$store.commit('createBirthdayDialogModule/setVisibility', true);
      },
      updateBirthday: function(data){
-       this.$store.commit('showUpdateBirthDayDialog');
+       this.$store.commit('updateBirthdayDialogModule/setVisibility', true);
+
        this.$store.commit('setName', data.name);
        this.$store.commit('setBirthDay', data.date);
+
        //this.$eventHub.$emit('toggle-update-birthday-dialog', true);
        //this.$eventHub.$emit('set-birthday-form', data);
      }

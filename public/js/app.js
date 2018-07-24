@@ -17861,8 +17861,6 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(5);
-//
 //
 //
 //
@@ -17878,8 +17876,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 
-
-
+//import {mapGetters} from 'vuex';
+//import {mapMutations} from 'vuex';
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   computed: {},
@@ -17894,13 +17892,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   methods: {
     createBirthday: function createBirthday() {
-      this.$store.commit('showCreateBirthDayDialog');
-      //this.$eventHub.$emit('toggle-create-birthday-dialog', true);
+      this.$store.commit('createBirthdayDialogModule/setVisibility', true);
     },
     updateBirthday: function updateBirthday(data) {
-      this.$store.commit('showUpdateBirthDayDialog');
+      this.$store.commit('updateBirthdayDialogModule/setVisibility', true);
+
       this.$store.commit('setName', data.name);
       this.$store.commit('setBirthDay', data.date);
+
       //this.$eventHub.$emit('toggle-update-birthday-dialog', true);
       //this.$eventHub.$emit('set-birthday-form', data);
     }
@@ -18026,7 +18025,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   computed: {
     dialog: {
       get: function get() {
-        return this.$store.state.createBirthDayDialog.visible;
+        return this.$store.getters['createBirthdayDialogModule/getVisibility'];
       }
     }
   },
@@ -18166,7 +18165,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   computed: {
     dialog: {
       get: function get() {
-        return this.$store.state.updateBirthDayDialog.visible;
+        return this.$store.getters['updateBirthdayDialogModule/getVisibility'];
       }
     }
   },
@@ -18444,11 +18443,9 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
     toggleState: function toggleState(_toggleState) {
 
       if (this.propFormType == "update") {
-        this.$store.commit('hideUpdateBirthDayDialog');
-        //this.$eventHub.$emit('toggle-update-birthday-dialog', toggleState);
+        this.$store.commit('updateBirthdayDialogModule/setVisibility', false);
       } else {
-        this.$store.commit('hideCreateBirthDayDialog');
-        //this.$eventHub.$emit('toggle-create-birthday-dialog', toggleState);
+        this.$store.commit('createBirthdayDialogModule/setVisibility', false);
       }
     },
     validateForm: function validateForm() {
@@ -46433,10 +46430,16 @@ var index_esm = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_snackbar__ = __webpack_require__(100);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_users__ = __webpack_require__(103);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_testModule__ = __webpack_require__(108);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_dialogs_CreateBirthdayDialogModule__ = __webpack_require__(114);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__modules_dialogs_UpdateBirthdayDialogModule__ = __webpack_require__(115);
 
 
 
 
+
+
+
+// Dialogs
 
 
 
@@ -46450,12 +46453,6 @@ var debug = "development" !== 'production';
     birthDayForm: {
       name: '',
       birthDay: ''
-    },
-    createBirthDayDialog: {
-      visible: false
-    },
-    updateBirthDayDialog: {
-      visible: false
     }
   },
   mutations: {
@@ -46464,26 +46461,15 @@ var debug = "development" !== 'production';
     },
     setBirthDay: function setBirthDay(state, birthDay) {
       state.birthDayForm.birthDay = birthDay;
-    },
-    showCreateBirthDayDialog: function showCreateBirthDayDialog(state) {
-      state.createBirthDayDialog.visible = true;
-    },
-    hideCreateBirthDayDialog: function hideCreateBirthDayDialog(state) {
-      state.createBirthDayDialog.visible = false;
-    },
-    showUpdateBirthDayDialog: function showUpdateBirthDayDialog(state) {
-      state.updateBirthDayDialog.visible = true;
-    },
-    hideUpdateBirthDayDialog: function hideUpdateBirthDayDialog(state) {
-      state.updateBirthDayDialog.visible = false;
     }
-
   },
   modules: {
     auth: __WEBPACK_IMPORTED_MODULE_2__modules_auth__["a" /* default */],
     snackbar: __WEBPACK_IMPORTED_MODULE_3__modules_snackbar__["a" /* default */],
     users: __WEBPACK_IMPORTED_MODULE_4__modules_users__["a" /* default */],
-    testModule: __WEBPACK_IMPORTED_MODULE_5__modules_testModule__["a" /* default */]
+    testModule: __WEBPACK_IMPORTED_MODULE_5__modules_testModule__["a" /* default */],
+    createBirthdayDialogModule: __WEBPACK_IMPORTED_MODULE_6__modules_dialogs_CreateBirthdayDialogModule__["a" /* default */],
+    updateBirthdayDialogModule: __WEBPACK_IMPORTED_MODULE_7__modules_dialogs_UpdateBirthdayDialogModule__["a" /* default */]
   },
   strict: debug
 }));
@@ -46859,6 +46845,56 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 110 */,
+/* 111 */,
+/* 112 */,
+/* 113 */,
+/* 114 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+  namespaced: true,
+  state: {
+    visible: false
+  },
+  getters: {
+    getVisibility: function getVisibility(state) {
+      // <-- getters rootState interesting.
+      return state.visible;
+    }
+  },
+  mutations: {
+    setVisibility: function setVisibility(state, val) {
+      state.visible = val;
+    }
+  }
+});
+
+/***/ }),
+/* 115 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+  namespaced: true,
+  state: {
+    visible: false
+  },
+  getters: {
+    getVisibility: function getVisibility(state) {
+      // <-- getters rootState interesting.
+      return state.visible;
+    }
+  },
+  mutations: {
+    setVisibility: function setVisibility(state, val) {
+      state.visible = val;
+    }
+  }
+});
 
 /***/ })
 /******/ ]);

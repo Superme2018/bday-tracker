@@ -154,11 +154,9 @@
       toggleState: function(toggleState){
 
         if(this.propFormType == "update"){
-          this.$store.commit('hideUpdateBirthDayDialog');
-          //this.$eventHub.$emit('toggle-update-birthday-dialog', toggleState);
+          this.$store.commit('updateBirthdayDialogModule/setVisibility', false);
         } else {
-          this.$store.commit('hideCreateBirthDayDialog');
-          //this.$eventHub.$emit('toggle-create-birthday-dialog', toggleState);
+          this.$store.commit('createBirthdayDialogModule/setVisibility', false);
         }
 
       },

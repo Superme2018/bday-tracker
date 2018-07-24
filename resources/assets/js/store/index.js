@@ -5,6 +5,10 @@ import snackbar from './modules/snackbar'
 import users from './modules/users'
 import TestModule from './modules/testModule'
 
+// Dialogs
+import CreateBirthdayDialogModule from './modules/dialogs/CreateBirthdayDialogModule'
+import UpdateBirthdayDialogModule from './modules/dialogs/UpdateBirthdayDialogModule'
+
 Vue.use(Vuex)
 
 const debug = process.env.NODE_ENV !== 'production'
@@ -16,12 +20,6 @@ export default new Vuex.Store({
       name: '',
       birthDay: ''
     },
-    createBirthDayDialog: {
-      visible: false
-    },
-    updateBirthDayDialog: {
-      visible: false
-    },
   },
   mutations: {
     setName: function(state, name) {
@@ -29,26 +27,15 @@ export default new Vuex.Store({
     },
     setBirthDay: function(state, birthDay) {
       state.birthDayForm.birthDay = birthDay;
-    },
-    showCreateBirthDayDialog: state => {
-      state.createBirthDayDialog.visible = true;
-    },
-    hideCreateBirthDayDialog: state => {
-      state.createBirthDayDialog.visible = false;
-    },
-    showUpdateBirthDayDialog: state => {
-      state.updateBirthDayDialog.visible = true;
-    },
-    hideUpdateBirthDayDialog: state => {
-      state.updateBirthDayDialog.visible = false;
     }
-
   },
   modules: {
     auth,
     snackbar,
     users,
-    testModule: TestModule
+    testModule: TestModule,
+    createBirthdayDialogModule: CreateBirthdayDialogModule,
+    updateBirthdayDialogModule: UpdateBirthdayDialogModule
   },
   strict: debug
 })

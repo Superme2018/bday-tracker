@@ -17,7 +17,7 @@
     computed:{
       dialog: {
         get(){
-          return this.$store.state.createBirthDayDialog.visible;
+          return this.$store.getters['createBirthdayDialogModule/getVisibility'];
         }
       }
     },
