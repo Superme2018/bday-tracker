@@ -3,7 +3,6 @@ import Vuex from 'vuex'
 import auth from './modules/auth'
 import snackbar from './modules/snackbar'
 import users from './modules/users'
-import TestModule from './modules/testModule'
 
 // Dialogs
 import CreateBirthdayDialogModule from './modules/dialogs/CreateBirthdayDialogModule'
@@ -29,11 +28,16 @@ export default new Vuex.Store({
       state.birthDayForm.birthDay = birthDay;
     }
   },
+  actions: {
+    setName: function(context, payload){
+      // Just a timeout test here.. Also just noticed Vue.http, looks like an axios wrapper.
+      setTimeout(() => context.commit('setName', payload), 3000);
+    }
+  },
   modules: {
     auth,
     snackbar,
     users,
-    testModule: TestModule,
     createBirthdayDialogModule: CreateBirthdayDialogModule,
     updateBirthdayDialogModule: UpdateBirthdayDialogModule
   },

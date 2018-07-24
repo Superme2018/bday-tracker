@@ -17885,8 +17885,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     return {};
   },
   created: function created() {
-    this.$store.commit('testModule/activate');
-    this.$store.getters['testModule/getActiveState'];
+    //this.$store.commit('testModule/activate');
+    //this.$store.getters['testModule/getActiveState'];
   },
   beforeDestroy: function beforeDestroy() {},
 
@@ -17897,7 +17897,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     updateBirthday: function updateBirthday(data) {
       this.$store.commit('updateBirthdayDialogModule/setVisibility', true);
 
-      this.$store.commit('setName', data.name);
+      this.$store.dispatch('setName', data.name);
       this.$store.commit('setBirthDay', data.date);
 
       //this.$eventHub.$emit('toggle-update-birthday-dialog', true);
@@ -46429,10 +46429,8 @@ var index_esm = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_auth__ = __webpack_require__(95);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_snackbar__ = __webpack_require__(100);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_users__ = __webpack_require__(103);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_testModule__ = __webpack_require__(108);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_dialogs_CreateBirthdayDialogModule__ = __webpack_require__(114);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__modules_dialogs_UpdateBirthdayDialogModule__ = __webpack_require__(115);
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_dialogs_CreateBirthdayDialogModule__ = __webpack_require__(114);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_dialogs_UpdateBirthdayDialogModule__ = __webpack_require__(115);
 
 
 
@@ -46463,13 +46461,20 @@ var debug = "development" !== 'production';
       state.birthDayForm.birthDay = birthDay;
     }
   },
+  actions: {
+    setName: function setName(context, payload) {
+      // Just a timeout test here.. Also just noticed Vue.http, looks like an axios wrapper.
+      setTimeout(function () {
+        return context.commit('setName', payload);
+      }, 3000);
+    }
+  },
   modules: {
     auth: __WEBPACK_IMPORTED_MODULE_2__modules_auth__["a" /* default */],
     snackbar: __WEBPACK_IMPORTED_MODULE_3__modules_snackbar__["a" /* default */],
     users: __WEBPACK_IMPORTED_MODULE_4__modules_users__["a" /* default */],
-    testModule: __WEBPACK_IMPORTED_MODULE_5__modules_testModule__["a" /* default */],
-    createBirthdayDialogModule: __WEBPACK_IMPORTED_MODULE_6__modules_dialogs_CreateBirthdayDialogModule__["a" /* default */],
-    updateBirthdayDialogModule: __WEBPACK_IMPORTED_MODULE_7__modules_dialogs_UpdateBirthdayDialogModule__["a" /* default */]
+    createBirthdayDialogModule: __WEBPACK_IMPORTED_MODULE_5__modules_dialogs_CreateBirthdayDialogModule__["a" /* default */],
+    updateBirthdayDialogModule: __WEBPACK_IMPORTED_MODULE_6__modules_dialogs_UpdateBirthdayDialogModule__["a" /* default */]
   },
   strict: debug
 }));
@@ -46813,34 +46818,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 }), _types$SELECTED_USER$);
 
 /***/ }),
-/* 108 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony default export */ __webpack_exports__["a"] = ({
-  namespaced: true,
-  state: {
-    isActive: false,
-    records: [{
-      id: 23, title: "Test record"
-    }]
-  },
-  getters: {
-    getActiveState: function getActiveState(state, getters, rootState) {
-      console.log(state.isActive);
-    }
-  },
-  mutations: {
-    activate: function activate(state) {
-      state.isActive = true;
-    },
-    deactivate: function deactivate(state) {
-      state.isActive = false;
-    }
-  }
-});
-
-/***/ }),
+/* 108 */,
 /* 109 */
 /***/ (function(module, exports) {
 

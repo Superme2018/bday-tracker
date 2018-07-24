@@ -23,8 +23,8 @@
       return {}
     },
     created() {
-      this.$store.commit('testModule/activate');
-      this.$store.getters['testModule/getActiveState'];
+      //this.$store.commit('testModule/activate');
+      //this.$store.getters['testModule/getActiveState'];
     },
     beforeDestroy() {},
     methods: {
@@ -34,7 +34,7 @@
      updateBirthday: function(data){
        this.$store.commit('updateBirthdayDialogModule/setVisibility', true);
 
-       this.$store.commit('setName', data.name);
+       this.$store.dispatch('setName', data.name);
        this.$store.commit('setBirthDay', data.date);
 
        //this.$eventHub.$emit('toggle-update-birthday-dialog', true);
