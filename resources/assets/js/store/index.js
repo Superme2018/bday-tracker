@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import auth from './modules/auth'
 import snackbar from './modules/snackbar'
 import users from './modules/users'
+import TestModule from './modules/testModule'
 
 Vue.use(Vuex)
 
@@ -46,7 +47,8 @@ export default new Vuex.Store({
   modules: {
     auth,
     snackbar,
-    users
+    users,
+    testModule: TestModule
   },
   strict: debug
 })

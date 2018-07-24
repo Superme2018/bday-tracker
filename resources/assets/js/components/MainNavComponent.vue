@@ -13,11 +13,20 @@
 
 
 <script>
+
+  import {mapGetters} from 'vuex';
+  import {mapMutations} from 'vuex';
+
   export default {
+    computed: {
+    },
     data () {
       return {}
     },
-    created() {},
+    created() {
+      this.$store.commit('testModule/activate');
+      this.$store.getters['testModule/getActiveState'];
+    },
     beforeDestroy() {},
     methods: {
      createBirthday: function(){

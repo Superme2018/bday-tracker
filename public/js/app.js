@@ -13413,7 +13413,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(20);
-module.exports = __webpack_require__(108);
+module.exports = __webpack_require__(109);
 
 
 /***/ }),
@@ -17861,6 +17861,7 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(5);
 //
 //
 //
@@ -17876,11 +17877,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
+
+
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  computed: {},
   data: function data() {
     return {};
   },
-  created: function created() {},
+  created: function created() {
+    this.$store.commit('testModule/activate');
+    this.$store.getters['testModule/getActiveState'];
+  },
   beforeDestroy: function beforeDestroy() {},
 
   methods: {
@@ -46423,6 +46432,8 @@ var index_esm = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_auth__ = __webpack_require__(95);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_snackbar__ = __webpack_require__(100);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_users__ = __webpack_require__(103);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_testModule__ = __webpack_require__(108);
+
 
 
 
@@ -46471,7 +46482,8 @@ var debug = "development" !== 'production';
   modules: {
     auth: __WEBPACK_IMPORTED_MODULE_2__modules_auth__["a" /* default */],
     snackbar: __WEBPACK_IMPORTED_MODULE_3__modules_snackbar__["a" /* default */],
-    users: __WEBPACK_IMPORTED_MODULE_4__modules_users__["a" /* default */]
+    users: __WEBPACK_IMPORTED_MODULE_4__modules_users__["a" /* default */],
+    testModule: __WEBPACK_IMPORTED_MODULE_5__modules_testModule__["a" /* default */]
   },
   strict: debug
 }));
@@ -46507,17 +46519,8 @@ var state = {
 
 "use strict";
 /* harmony default export */ __webpack_exports__["a"] = ({
-  logged: function logged(state) {
-    return state.logged;
-  },
-  token: function token(state) {
-    return state.token;
-  },
-  user: function user(state) {
-    return state.user;
-  },
-  roles: function roles(state) {
-    return state.user ? state.user.roles : [];
+  createBirthDayDialog: function createBirthDayDialog(state) {
+    return state.createBirthDayDialog.visible;
   }
 });
 
@@ -46825,6 +46828,34 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /***/ }),
 /* 108 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+  namespaced: true,
+  state: {
+    isActive: false,
+    records: [{
+      id: 23, title: "Test record"
+    }]
+  },
+  getters: {
+    getActiveState: function getActiveState(state, getters, rootState) {
+      console.log(state.isActive);
+    }
+  },
+  mutations: {
+    activate: function activate(state) {
+      state.isActive = true;
+    },
+    deactivate: function deactivate(state) {
+      state.isActive = false;
+    }
+  }
+});
+
+/***/ }),
+/* 109 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
