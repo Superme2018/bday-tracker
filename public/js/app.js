@@ -46857,9 +46857,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   namespaced: true,
   state: {
     birthDayForm: {
-      loader: false,
+      errors: '',
       name: '',
-      birthDay: ''
+      birthDay: '',
+      loaderDisabled: true,
+      cancelDisabled: false,
+      saveDisabled: false,
+      alertDisabled: true
     }
   },
   mutations: {
@@ -46868,6 +46872,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     setBirthday: function setBirthday(state, birthDay) {
       state.birthDayForm.birthDay = birthDay;
+    },
+    setLoaderActive: function setLoaderActive(state, val) {
+      state.loaderDisabled = val;
+    },
+    setCancelActive: function setCancelActive(state, val) {
+      state.cancelDisabled = val;
+    },
+    setSaveActive: function setSaveActive(state, val) {
+      state.saveDisabled = val;
+    },
+    setAlertActive: function setAlertActive(state, val) {
+      state.alertDisabled = val;
     }
   },
   getters: {
@@ -46879,14 +46895,42 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   },
   actions: {
+
     setForm: function setForm(context, payload) {
       console.log(payload);
       // Just noticed Vue.http, looks like an axios wrapper.
       context.commit('setName', payload.name);
       context.commit('setBirthday', payload.date);
     },
+
     createNewBirthDay: function createNewBirthDay(context, payload) {
       console.log(payload);
+
+      context.commit('setLoader', true);
+      context.commit('cancelDisabled', true);
+
+      var requestUrl = "http://localhost/bday-tracker/public/api/bday";
+
+      axios.post(requestUrl, {
+        name: name,
+        birthDay: date
+      }).then(function (response) {
+
+        // JSON responses are automatically parsed.
+        context.state.birthDayForm.name = response.data.name;
+        context.state.birthDayForm.birthDay = response.data.date;
+
+        context.commit('setLoader', false);
+        context.commit('cancelDisabled', false);
+
+        /*
+          this.$eventHub.$emit('toggle-create-birthday-dialog', false);
+          this.$eventHub.$emit('change-page-request', {page:5}); // Page 5 for testing.
+          this.$eventHub.$emit('birthday-created-notification', {state:true});
+        */
+      }).catch(function (e) {
+        context.state.errors.push(e);
+      });
     }
   }
 });
