@@ -103,15 +103,15 @@
     computed:{
       name: {
         get(){
-          return this.$store.state.birthDayForm.name;
+          return this.$store.getters['birthdayForm/getName'];
         }
       },
       date: {
         get(){
-          return this.$store.state.birthDayForm.birthDay;
+          return this.$store.getters['birthdayForm/getBirthday'];
         },
         set(date){
-          this.$store.commit('setBirthDay', date);
+          this.$store.commit('birthdayForm/setBirthday', date);
         }
       },
     },

@@ -22,23 +22,22 @@
     data () {
       return {}
     },
-    created() {
-      //this.$store.commit('testModule/activate');
-      //this.$store.getters['testModule/getActiveState'];
-    },
+    created() {},
     beforeDestroy() {},
     methods: {
      createBirthday: function(){
-       this.$store.commit('createBirthdayDialogModule/setVisibility', true);
+
+      this.$store.commit('createBirthdayDialogModule/setVisibility', true);
+
      },
      updateBirthday: function(data){
-       this.$store.commit('updateBirthdayDialogModule/setVisibility', true);
 
-       this.$store.dispatch('setName', data.name);
-       this.$store.commit('setBirthDay', data.date);
+      this.$store.commit('updateBirthdayDialogModule/setVisibility', true);
+      this.$store.dispatch('birthdayForm/setForm', data);
 
        //this.$eventHub.$emit('toggle-update-birthday-dialog', true);
        //this.$eventHub.$emit('set-birthday-form', data);
+
      }
     },
     watch: {},

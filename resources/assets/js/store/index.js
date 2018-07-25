@@ -8,38 +8,27 @@ import users from './modules/users'
 import CreateBirthdayDialogModule from './modules/dialogs/CreateBirthdayDialogModule'
 import UpdateBirthdayDialogModule from './modules/dialogs/UpdateBirthdayDialogModule'
 
+// Forms
+import BirthdayForm from './modules/forms/BirthdayForm'
+
 Vue.use(Vuex)
 
 const debug = process.env.NODE_ENV !== 'production'
 
 export default new Vuex.Store({
-  state: {
-    pageNumber: 456,
-    birthDayForm:{
-      name: '',
-      birthDay: ''
-    },
-  },
-  mutations: {
-    setName: function(state, name) {
-      state.birthDayForm.name = name;
-    },
-    setBirthDay: function(state, birthDay) {
-      state.birthDayForm.birthDay = birthDay;
-    }
-  },
-  actions: {
-    setName: function(context, payload){
-      // Just a timeout test here.. Also just noticed Vue.http, looks like an axios wrapper.
-      setTimeout(() => context.commit('setName', payload), 3000);
-    }
-  },
+
+  state: {},
+  mutations: {},
+
   modules: {
     auth,
     snackbar,
     users,
     createBirthdayDialogModule: CreateBirthdayDialogModule,
-    updateBirthdayDialogModule: UpdateBirthdayDialogModule
+    updateBirthdayDialogModule: UpdateBirthdayDialogModule,
+    birthdayForm: BirthdayForm
   },
+
   strict: debug
+
 })

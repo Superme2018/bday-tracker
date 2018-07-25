@@ -13413,7 +13413,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(20);
-module.exports = __webpack_require__(109);
+module.exports = __webpack_require__(111);
 
 
 /***/ }),
@@ -17884,21 +17884,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   data: function data() {
     return {};
   },
-  created: function created() {
-    //this.$store.commit('testModule/activate');
-    //this.$store.getters['testModule/getActiveState'];
-  },
+  created: function created() {},
   beforeDestroy: function beforeDestroy() {},
 
   methods: {
     createBirthday: function createBirthday() {
+
       this.$store.commit('createBirthdayDialogModule/setVisibility', true);
     },
     updateBirthday: function updateBirthday(data) {
-      this.$store.commit('updateBirthdayDialogModule/setVisibility', true);
 
-      this.$store.dispatch('setName', data.name);
-      this.$store.commit('setBirthDay', data.date);
+      this.$store.commit('updateBirthdayDialogModule/setVisibility', true);
+      this.$store.dispatch('birthdayForm/setForm', data);
 
       //this.$eventHub.$emit('toggle-update-birthday-dialog', true);
       //this.$eventHub.$emit('set-birthday-form', data);
@@ -18390,15 +18387,15 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
   computed: {
     name: {
       get: function get() {
-        return this.$store.state.birthDayForm.name;
+        return this.$store.getters['birthdayForm/getName'];
       }
     },
     date: {
       get: function get() {
-        return this.$store.state.birthDayForm.birthDay;
+        return this.$store.getters['birthdayForm/getBirthday'];
       },
       set: function set(date) {
-        this.$store.commit('setBirthDay', date);
+        this.$store.commit('birthdayForm/setBirthday', date);
       }
     }
   },
@@ -46429,8 +46426,9 @@ var index_esm = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_auth__ = __webpack_require__(95);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_snackbar__ = __webpack_require__(100);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_users__ = __webpack_require__(103);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_dialogs_CreateBirthdayDialogModule__ = __webpack_require__(114);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_dialogs_UpdateBirthdayDialogModule__ = __webpack_require__(115);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_dialogs_CreateBirthdayDialogModule__ = __webpack_require__(108);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_dialogs_UpdateBirthdayDialogModule__ = __webpack_require__(109);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__modules_forms_BirthdayForm__ = __webpack_require__(110);
 
 
 
@@ -46441,42 +46439,29 @@ var index_esm = {
 
 
 
+// Forms
+
+
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */]);
 
 var debug = "development" !== 'production';
 
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
-  state: {
-    pageNumber: 456,
-    birthDayForm: {
-      name: '',
-      birthDay: ''
-    }
-  },
-  mutations: {
-    setName: function setName(state, name) {
-      state.birthDayForm.name = name;
-    },
-    setBirthDay: function setBirthDay(state, birthDay) {
-      state.birthDayForm.birthDay = birthDay;
-    }
-  },
-  actions: {
-    setName: function setName(context, payload) {
-      // Just a timeout test here.. Also just noticed Vue.http, looks like an axios wrapper.
-      setTimeout(function () {
-        return context.commit('setName', payload);
-      }, 3000);
-    }
-  },
+
+  state: {},
+  mutations: {},
+
   modules: {
     auth: __WEBPACK_IMPORTED_MODULE_2__modules_auth__["a" /* default */],
     snackbar: __WEBPACK_IMPORTED_MODULE_3__modules_snackbar__["a" /* default */],
     users: __WEBPACK_IMPORTED_MODULE_4__modules_users__["a" /* default */],
     createBirthdayDialogModule: __WEBPACK_IMPORTED_MODULE_5__modules_dialogs_CreateBirthdayDialogModule__["a" /* default */],
-    updateBirthdayDialogModule: __WEBPACK_IMPORTED_MODULE_6__modules_dialogs_UpdateBirthdayDialogModule__["a" /* default */]
+    updateBirthdayDialogModule: __WEBPACK_IMPORTED_MODULE_6__modules_dialogs_UpdateBirthdayDialogModule__["a" /* default */],
+    birthdayForm: __WEBPACK_IMPORTED_MODULE_7__modules_forms_BirthdayForm__["a" /* default */]
   },
+
   strict: debug
+
 }));
 
 /***/ }),
@@ -46818,61 +46803,99 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 }), _types$SELECTED_USER$);
 
 /***/ }),
-/* 108 */,
+/* 108 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+  namespaced: true,
+  state: {
+    visible: false
+  },
+  getters: {
+    getVisibility: function getVisibility(state) {
+      // <-- getters rootState interesting.
+      return state.visible;
+    }
+  },
+  mutations: {
+    setVisibility: function setVisibility(state, val) {
+      state.visible = val;
+    }
+  }
+});
+
+/***/ }),
 /* 109 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+  namespaced: true,
+  state: {
+    visible: false
+  },
+  getters: {
+    getVisibility: function getVisibility(state) {
+      // <-- getters rootState interesting.
+      return state.visible;
+    }
+  },
+  mutations: {
+    setVisibility: function setVisibility(state, val) {
+      state.visible = val;
+    }
+  }
+});
+
+/***/ }),
+/* 110 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+  namespaced: true,
+  state: {
+    birthDayForm: {
+      loader: false,
+      name: '',
+      birthDay: ''
+    }
+  },
+  mutations: {
+    setName: function setName(state, name) {
+      state.birthDayForm.name = name;
+    },
+    setBirthday: function setBirthday(state, birthDay) {
+      state.birthDayForm.birthDay = birthDay;
+    }
+  },
+  getters: {
+    getName: function getName(state) {
+      return state.birthDayForm.name;
+    },
+    getBirthday: function getBirthday(state) {
+      return state.birthDayForm.birthDay;
+    }
+  },
+  actions: {
+    setForm: function setForm(context, payload) {
+      console.log(payload);
+      // Just noticed Vue.http, looks like an axios wrapper.
+      context.commit('setName', payload.name);
+      context.commit('setBirthday', payload.date);
+    },
+    createNewBirthDay: function createNewBirthDay(context, payload) {
+      console.log(payload);
+    }
+  }
+});
+
+/***/ }),
+/* 111 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 110 */,
-/* 111 */,
-/* 112 */,
-/* 113 */,
-/* 114 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony default export */ __webpack_exports__["a"] = ({
-  namespaced: true,
-  state: {
-    visible: false
-  },
-  getters: {
-    getVisibility: function getVisibility(state) {
-      // <-- getters rootState interesting.
-      return state.visible;
-    }
-  },
-  mutations: {
-    setVisibility: function setVisibility(state, val) {
-      state.visible = val;
-    }
-  }
-});
-
-/***/ }),
-/* 115 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony default export */ __webpack_exports__["a"] = ({
-  namespaced: true,
-  state: {
-    visible: false
-  },
-  getters: {
-    getVisibility: function getVisibility(state) {
-      // <-- getters rootState interesting.
-      return state.visible;
-    }
-  },
-  mutations: {
-    setVisibility: function setVisibility(state, val) {
-      state.visible = val;
-    }
-  }
-});
 
 /***/ })
 /******/ ]);
