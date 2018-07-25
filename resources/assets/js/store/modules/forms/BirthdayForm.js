@@ -1,14 +1,19 @@
 export default {
   namespaced: true,
   state: {
+    datePicker: false,
+    loaderActive: false,
+    valid: false,
+    cancelActive: false,
+    saveActive: false,
+    alertActive: true,
+    alertMessage: '',
     birthDayForm: {
       errors: '',
+      id: null,
       name: '',
-      birthDay: '',
-      loaderDisabled: true,
-      cancelDisabled: false,
-      saveDisabled: false,
-      alertDisabled: true,
+      birthDay: null, // is dateFormated
+      date: null,
     },
   },
   mutations: {
@@ -19,17 +24,31 @@ export default {
       state.birthDayForm.birthDay = birthDay;
     },
     setLoaderActive: function(state, val){
-      state.loaderDisabled = val;
+      state.loaderActive = val;
     },
     setCancelActive: function(state, val){
-      state.cancelDisabled = val;
+      state.cancelActive = val;
     },
     setSaveActive: function(state, val){
-      state.saveDisabled = val;
+      state.saveActive = val;
     },
     setAlertActive: function(state, val){
-      state.alertDisabled = val;
-    }
+      state.alertActive = val;
+    },
+    /*
+    setDateFormated: function(state, date){
+      state.dateFormatted = date;
+    },
+    */
+    setValid: function(state, val){
+      state.valid = val;
+    },
+    setDate(state, date){
+      state.birthDayForm.date = date;
+    },
+    setDatePicker(state, val){
+      state.datePicker = val;
+    },
   },
   getters: {
     getName(state){
@@ -37,7 +56,36 @@ export default {
     },
     getBirthday(state){
       return state.birthDayForm.birthDay;
-    }
+    },
+    getAlertMessage(state){
+      return state.alertMessage;
+    },
+    getAlertActive(state){
+      return state.alertActive;
+    },
+    getCancelActive: function(state){
+      return state.cancelActive;
+    },
+    getSaveActive: function(state){
+      return state.saveActive;
+    },
+    getValid(state){
+      return state.valid;
+    },
+    getDate(state){
+      return state.birthDayForm.date;
+    },
+    /*
+    getDateFormatted(state){
+      return state.birthDayForm.dateFormatted;
+    },
+    */
+    getDatePicker(state){
+      return state.datePicker;
+    },
+    getLoaderActive(state){
+      return state.loaderActive;
+    },
   },
   actions: {
 
@@ -48,7 +96,7 @@ export default {
       context.commit('setBirthday', payload.date);
     },
 
-    createNewBirthDay: function(context, payload) {
+    createBirthDay: function(context, payload) {
       console.log(payload);
 
       context.commit('setLoader', true);
@@ -57,8 +105,8 @@ export default {
       var requestUrl = "http://localhost/bday-tracker/public/api/bday"
 
       axios.post(requestUrl, {
-        name: name,
-        birthDay: date
+        name: context.state.name,
+        birthDay: context.state.date
       })
       .then(response => {
 

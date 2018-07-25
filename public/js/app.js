@@ -18285,6 +18285,10 @@ module.exports = Component.exports
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
+var _computed;
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -18384,61 +18388,82 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
     validator: 'new'
   },
   props: ['propFormType', 'propFormTitle'],
-  computed: {
+  computed: (_computed = { //<-- Hmmmm, ES6, maybe?
     name: {
       get: function get() {
         return this.$store.getters['birthdayForm/getName'];
+      },
+      set: function set(name) {
+        this.$store.commit('birthdayForm/setName', name);
       }
     },
     date: {
       get: function get() {
+        return this.$store.getters['birthdayForm/getDate'];
+      },
+      set: function set(date) {
+        this.$store.commit('birthddayForm/setDate', date);
+      }
+    },
+    dateFormatted: {
+      get: function get() {
         return this.$store.getters['birthdayForm/getBirthday'];
       },
       set: function set(date) {
-        this.$store.commit('birthdayForm/setBirthday', date);
+        this.$store.commit('birthdayForm/setBirthday', this.formatDate(date));
+      }
+    },
+    datePicker: {
+      get: function get() {
+        return this.$store.getters['birthdayForm/getBirthday'];
+      },
+      set: function set(date) {
+        this.$store.commit('birthdayForm/setBirthday', this.formatDate(date));
+      }
+    },
+    valid: {
+      get: function get() {
+        return this.$store.getters['birthdayForm/getValid'];
+      },
+      set: function set(date) {
+        this.$store.commit('birthdayForm/setValid', date);
+      }
+    },
+    alert: {
+      get: function get() {
+        return this.$store.getters['birthdayForm/setAlertActive'];
+      },
+      set: function set(val) {
+        this.$store.commit('birthdayForm/getAlertActive', val);
       }
     }
-  },
-  data: function data() {
-    return {
-      alert: false,
-      alertMessage: null,
-      loader: null,
-      loading: false,
-      id: null,
-      dateFormatted: null,
-      datePicker: false,
-      valid: false,
-      cancelBtn: false,
-      saveEnabled: true
-    };
-  },
-  created: function created() {
-    //this.$eventHub.$on('set-birthday-form', this.setForm);
-    //this.$eventHub.$on('resets-birthday-form', this.resets);
-  },
-  beforeDestroy: function beforeDestroy() {
-    //this.$eventHub.$off('set-birthday-form');
-    //this.$eventHub.$off('resets-birthday-form');
-  },
+  }, _defineProperty(_computed, 'datePicker', {
+    get: function get() {
+      return this.$store.getters['birthdayForm/setAlertActive'];
+    },
+    set: function set(val) {
+      this.$store.commit('birthdayForm/getAlertActive', val);
+    }
+  }), _defineProperty(_computed, 'cancelActive', {
+    get: function get() {
+      return this.$store.getters['birthdayForm/setCancelActive'];
+    },
+    set: function set(val) {
+      this.$store.commit('birthdayForm/getCancelActive', val);
+    }
+  }), _defineProperty(_computed, 'loadingActive', {
+    get: function get() {
+      return this.$store.getters['birthdayForm/getLoaderActive'];
+    },
+    set: function set(val) {
+      this.$store.commit('birthdayForm/setLoaderActive', val);
+    }
+  }), _computed),
+  created: function created() {},
+  beforeDestroy: function beforeDestroy() {},
 
   methods: {
-    setForm: function setForm(data) {
-
-      //if(!data.name || !data.date || !data.id)
-      //  this.alert = true; this.alertMessage = "Missing required parameters.";
-
-      //this.id = data.id;
-      //this.name = data.name;
-      //this.dateFormatted = this.formatDate(data.date);
-
-    },
-    resets: function resets() {
-      //this.alert = false;
-    },
-
     toggleState: function toggleState(_toggleState) {
-
       if (this.propFormType == "update") {
         this.$store.commit('updateBirthdayDialogModule/setVisibility', false);
       } else {
@@ -18457,41 +18482,10 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
       this.$validator.validateAll().then(function (res) {
         if (res) {
-          _this2.toggleState(true);
-          _this2.createNewBirthDay(_this2.name, _this2.date);
+          _this2.$store.dispatch('birthdayForm/createBirthDay');
         } else {
           console.log("Error with validation.");
         }
-      });
-    },
-    createNewBirthDay: function createNewBirthDay(name, date) {
-      var _this3 = this;
-
-      this.setLoader(true);
-      this.cancelBtn = true;
-
-      var compData = this;
-      var requestUrl = "http://localhost/bday-tracker/public/api/bday";
-
-      var requestInstance = axios.post(requestUrl, {
-        name: name,
-        birthDay: date
-      }).then(function (response) {
-
-        compData.bday = response.data;
-
-        compData.setLoader(false), _this3.$eventHub.$emit('toggle-create-birthday-dialog', false);
-        _this3.$eventHub.$emit('change-page-request', { page: 5 }); // Page 5 for testing.
-        _this3.$eventHub.$emit('birthday-created-notification', { state: true });
-      }).catch(function (error) {
-
-        compData.bday = error;
-
-        compData.setLoader(false);
-        compData.cancelBtn = false;
-
-        compData.alert = true;
-        this.alertMessage = "Unable to create new Birthday record.";
       });
     },
     formatDate: function formatDate(date) {
@@ -18504,21 +18498,11 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
           day = _date$split2[2];
 
       return month + '/' + day + '/' + year;
-    },
-    setLoader: function setLoader(state) {
-
-      console.log(state);
-
-      if (state) {
-        this.loading = true;return;
-      }
-
-      this.loading = false;return;
     }
   },
   watch: {
     date: function date(_date) {
-      this.dateFormatted = this.formatDate(this.date);
+      this.$store.commit('birthddayForm/setDateFormated', this.formatDate(_date));
     }
   }
 });
@@ -18561,7 +18545,13 @@ var render = function() {
                 expression: "alert"
               }
             },
-            [_vm._v("\n      " + _vm._s(this.alertMessage) + "\n    ")]
+            [
+              _vm._v(
+                "\n      " +
+                  _vm._s(this.$store.getters["birthdayForm/getAlertMessage"]) +
+                  "\n    "
+              )
+            ]
           )
         ],
         1
@@ -18691,7 +18681,10 @@ var render = function() {
           _c(
             "v-btn",
             {
-              attrs: { color: "deep-blue accent-4", disabled: _vm.cancelBtn },
+              attrs: {
+                color: "deep-blue accent-4",
+                disabled: _vm.cancelActive
+              },
               on: {
                 click: function($event) {
                   _vm.toggleState(false)
@@ -18705,7 +18698,7 @@ var render = function() {
             "v-btn",
             {
               attrs: {
-                loading: _vm.loading,
+                loading: _vm.loadingActive,
                 color: "deep-blue accent-4",
                 disabled: !_vm.valid
               },
@@ -46856,14 +46849,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /* harmony default export */ __webpack_exports__["a"] = ({
   namespaced: true,
   state: {
+    datePicker: false,
+    loaderActive: false,
+    valid: false,
+    cancelActive: false,
+    saveActive: false,
+    alertActive: true,
+    alertMessage: '',
     birthDayForm: {
       errors: '',
+      id: null,
       name: '',
-      birthDay: '',
-      loaderDisabled: true,
-      cancelDisabled: false,
-      saveDisabled: false,
-      alertDisabled: true
+      birthDay: null, // is dateFormated
+      date: null
     }
   },
   mutations: {
@@ -46874,16 +46872,30 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       state.birthDayForm.birthDay = birthDay;
     },
     setLoaderActive: function setLoaderActive(state, val) {
-      state.loaderDisabled = val;
+      state.loaderActive = val;
     },
     setCancelActive: function setCancelActive(state, val) {
-      state.cancelDisabled = val;
+      state.cancelActive = val;
     },
     setSaveActive: function setSaveActive(state, val) {
-      state.saveDisabled = val;
+      state.saveActive = val;
     },
     setAlertActive: function setAlertActive(state, val) {
-      state.alertDisabled = val;
+      state.alertActive = val;
+    },
+    /*
+    setDateFormated: function(state, date){
+      state.dateFormatted = date;
+    },
+    */
+    setValid: function setValid(state, val) {
+      state.valid = val;
+    },
+    setDate: function setDate(state, date) {
+      state.birthDayForm.date = date;
+    },
+    setDatePicker: function setDatePicker(state, val) {
+      state.datePicker = val;
     }
   },
   getters: {
@@ -46892,6 +46904,37 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     getBirthday: function getBirthday(state) {
       return state.birthDayForm.birthDay;
+    },
+    getAlertMessage: function getAlertMessage(state) {
+      return state.alertMessage;
+    },
+    getAlertActive: function getAlertActive(state) {
+      return state.alertActive;
+    },
+
+    getCancelActive: function getCancelActive(state) {
+      return state.cancelActive;
+    },
+    getSaveActive: function getSaveActive(state) {
+      return state.saveActive;
+    },
+    getValid: function getValid(state) {
+      return state.valid;
+    },
+    getDate: function getDate(state) {
+      return state.birthDayForm.date;
+    },
+
+    /*
+    getDateFormatted(state){
+      return state.birthDayForm.dateFormatted;
+    },
+    */
+    getDatePicker: function getDatePicker(state) {
+      return state.datePicker;
+    },
+    getLoaderActive: function getLoaderActive(state) {
+      return state.loaderActive;
     }
   },
   actions: {
@@ -46903,7 +46946,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       context.commit('setBirthday', payload.date);
     },
 
-    createNewBirthDay: function createNewBirthDay(context, payload) {
+    createBirthDay: function createBirthDay(context, payload) {
       console.log(payload);
 
       context.commit('setLoader', true);
@@ -46912,8 +46955,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var requestUrl = "http://localhost/bday-tracker/public/api/bday";
 
       axios.post(requestUrl, {
-        name: name,
-        birthDay: date
+        name: context.state.name,
+        birthDay: context.state.date
       }).then(function (response) {
 
         // JSON responses are automatically parsed.
