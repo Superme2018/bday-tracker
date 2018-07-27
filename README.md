@@ -19,7 +19,7 @@ php artisan make:controller BdayController --resource --api --model=Bday <br>
 php artisan db:seed <br>
 ./vendor/bin/phpunit <br>
 
-<strong>Application Hi-lights (Vutify.js in action)</strong>
+<strong>Application Hi-lights (Vuetify.js in action)</strong>
 
 Some .gif mov recordings to capture some of the applications features.
 
